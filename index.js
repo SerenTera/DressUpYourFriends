@@ -20,7 +20,7 @@ module.exports = function dressupf(dispatch) {
 	//hook to save players names:
 	dispatch.hook('S_SPAWN_USER',3,event => {  
 		for(var i=0; i<players.length ;i++) {
-			if(event.cid.equals(players[i].id)) {
+			if(event.cid.equals(players[i].id)) { //MUST USE .equals and not ===, goddam i spent 4hours looking thru just to see this stupid mistake
 				if(debug) {
 				message('not saved');
 				};
