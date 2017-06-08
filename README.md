@@ -22,7 +22,7 @@ Defaults: Module is enabled, Maintain appearances thorugh target changes enabled
 ## Known bugs
 - It will not work for targets of different Race. Although it seems to work well regardless of classes.
 - Also does not seem to work for targets of different height/thigh/shape whatever when it comes to costume, though it worked alright when i unequipped costume and left the equipments or inners(fml,see safety advice 1) equipped. (Investigate this soon, prob one of the unk values), so only costume is affected by shape differences. 
-- Attempting to do those above will cause a floating head effect. Simply move out and back from the sight of the target to reload their appearances.
+- Attempting to do those above will cause a floating head effect. Simply move out and back from the sight of the target to reload their appearances. It can actually work sometimes, i tested on a castanic and lul, have you seen a elin using arccannon before?
 - Probably will not save module-changed appearances by other modules yet. Will try to do that next, after working out the costume issues.
 
 ## Safety advice
@@ -34,5 +34,5 @@ Defaults: Module is enabled, Maintain appearances thorugh target changes enabled
 - Allow changing of appearance via greeting the target. (So you dont have to type any names :) )
 - Making costume work regardless of shape.
 - Save player equipments from other modules that changes looks too (filter.fake=true)
-- Give a command to allow players to customize their saved look using item ids, so they can put different costumes on the changed target and do not necessary become a copy of the target costume.
+- Give a command to allow players to customize their saved look using item ids, so they can put different costumes on the changed target and do not necessary become a copy of the target costume. Especially weapons, which should not be replaced. No more Elin carrying an arcannon. That looked so weird. 
 - Give different options to users that allow them to only copy certain equipments. (ie: only change body costume, while leaving the rest as target's original costume)- requires indexing 
