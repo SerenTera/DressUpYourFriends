@@ -3,6 +3,8 @@ Version 0.1: Initial release with basic working features
 
 A Tera Proxy Module to change the look of your friends, enemies or anyone in your visible vicnity. Appearance is Client Sided!!! Using the commands on anyone will cause their equipped costumes/equipment to change to look like yours. Currently copies every costume/equipment on you, but appearance (skintone,hair,face etc) is unaffected.
 
+Might cause some lags in heavily populated areas
+
 Yes i know the code is messy af with comments everywhere. Just don't look LUL, i'm new to JS.
 
 ## General instructions
@@ -10,11 +12,13 @@ When logging in you should see a message 'current equipped saved'. When you chan
 
 To reset a target's appearance to their original, just move out till you cannot see them and move back in to reload. I miggghhhhhht add a function in the future but i dont see why this is important because doing that will require the saving of all character's apearances, much easier to just move back and in right?
 
+Defaults: Module is enabled, Maintain appearances thorugh target changes enabled.
 ## Commands:
 - !dressup (name): Dress up the named person to look like you. Can be in any captialization, just spelling matters
 - !du maintain: Toggles whether to maintain the changed costume on others even if they change their look.-Untested fully yet
+- !du: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
 - !du(number): change modes. Not Implemented Yet.
-- !du:Toggle enabling/disabling of module. Not implemented yet.
+
 ## Known bugs
 - It will not work for targets of different Race. Although it seems to work well regardless of classes.
 - Also does not seem to work for targets of different height/thigh/shape whatever when it comes to costume, though it worked alright when i unequipped costume and left the equipments or inners(fml,see safety advice 1) equipped. (Investigate this soon, prob one of the unk values), so only costume is affected by shape differences. 
