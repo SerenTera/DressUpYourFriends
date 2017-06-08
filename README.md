@@ -5,7 +5,7 @@ A Tera Proxy Module to change the look of your friends, enemies or anyone in you
 
 Might cause some lags in heavily populated areas? I dont know. But you can just disable the module and this clears all entry and effectively prevents the logging of targets.
 
-Yes i know the code is messy af with comments everywhere. Just don't look LUL, i'm new to JS.
+Yes i know the code is messy af with comments everywhere. Just don't look LUL, i'm new to JS. Feel free to share, this is harmless, but risk is on you since you are using a proxy anyway.
 
 ## General instructions
 When logging in you should see a message 'current equipped saved'. When you change your appearance in any way (except using proxy modules), you should see this message again. This signifies the current equip you have is saved and to be copied onto your targets.
