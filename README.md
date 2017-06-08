@@ -14,7 +14,7 @@ To reset a target's appearance to their original, just move out till you cannot 
 
 Defaults: Module is enabled, Maintain appearances thorugh target changes enabled.
 ## Commands:
-- !dressup (name): Dress up the named person to look like you. Can be in any captialization, just spelling matters
+- !dressup (name): Dress up the named person to look like you. Can be in any captialization, just spelling matters. Eg: '!dressup seren' can dress up any igns seren,Seren, SEREN, seReN,etc. 
 - !du maintain: Toggles whether to maintain the changed costume on others even if they change their look.-Untested fully yet
 - !du: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
 - !du(number): change modes. Not Implemented Yet.
