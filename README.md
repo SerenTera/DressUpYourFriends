@@ -36,3 +36,9 @@ Defaults: Module is enabled, Maintain appearances thorugh target changes enabled
 - Save player equipments from other modules that changes looks too (filter.fake=true)
 - Give a command to allow players to customize their saved look using item ids, so they can put different costumes on the changed target and do not necessary become a copy of the target costume. Especially weapons, which should not be replaced. No more Elin carrying an arcannon. That looked so weird. 
 - Give different options to users that allow them to only copy certain equipments. (ie: only change body costume, while leaving the rest as target's original costume)- requires indexing 
+
+## Credits 
+- Bernkastel's Costume-ex for allowing me to understand the fact that I needed to use .equals instead of === (im noob)
+https://github.com/Bernkastel-0/
+- Teralove's emote-player module for the looping code to save players name/ign 
+https://github.com/teralove/
