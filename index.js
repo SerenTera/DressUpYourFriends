@@ -27,7 +27,9 @@ module.exports = function dressupf(dispatch) {
 				return;
 			};
 		};
-		players.push({igname:event.name.toLocaleLowerCase(),id:event.cid}); //tolocalelowercase for other regions igns of different locale?
+		if(enabled) {
+			players.push({igname:event.name.toLocaleLowerCase(),id:event.cid}); //tolocalelowercase for other regions igns of different locale?
+		};
 		if(debug){
 		message(JSON.stringify(players));
 		};
@@ -52,7 +54,7 @@ module.exports = function dressupf(dispatch) {
 	
 	//hook sUserExtChange, PC need to requip something for this to trigger for now. Todo: automatically add in properties using sLogin			
 	dispatch.hook('S_USER_EXTERNAL_CHANGE',1,event => {
-		if(event.id.equals(playerid)) {	//must define this for only packets that matches PC
+		if(enabled && event.id.equals(playerid)) {	//must define this for only packets that matches PC
 			equips = Object.assign({},event),
 			message('Current Equipped saved');
 			if(debug){
@@ -91,7 +93,18 @@ module.exports = function dressupf(dispatch) {
 				else
 					maintaincos=true,
 					message('Costume maintained');
+			}
+			else {
+				if(enabled) {
+					enabled=false,
+					players=[],
+					message('Disabled DressupFriends');
+				}
+				else
+					enabled=true,
+					message('Enabled DressupFriends');
 			};
+			return false;
 		};
 	});
 			
