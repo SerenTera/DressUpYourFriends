@@ -3,7 +3,7 @@ Version 0.1: Initial release with basic working features
 
 A Tera Proxy Module to change the look of your friends, enemies or anyone in your visible vicnity. Appearance is Client Sided!!! Using the commands on anyone will cause their equipped costumes/equipment to change to look like yours. Currently copies every costume/equipment on you, but appearance (skintone,hair,face etc) is unaffected.
 
-Might cause some lags in heavily populated areas
+Might cause some lags in heavily populated areas? I dont know. But you can just disable the module and this clears all entry and effectively prevents the logging of targets.
 
 Yes i know the code is messy af with comments everywhere. Just don't look LUL, i'm new to JS.
 
