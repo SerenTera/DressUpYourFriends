@@ -16,7 +16,7 @@ Set 'custom_mod' in index.js to true if you use custom proxy modules that change
 
 Defaults: Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled.
 ## Commands: Spaces are important if you want to block em from being broadcasted.
-- !dressup greeting: Toggles greet to change. Change someone's look to yours by greeting their character instead using 'Personalized greeting' skill. Works even with module disabled but only the last saved equip will be copied.
+- !du greeting: Toggles greet to change. Change someone's look to yours by greeting their character instead using 'Personalized greeting' skill. Works even with module disabled but only the last saved equip will be copied.
 - !dressup (name): Dress up the named person to look like you. Can be in any captialization, just spelling matters. Eg: '!dressup seren' can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
 - !du maintain: Toggles whether to maintain the changed costume on others even if they change their look.-Untested fully yet
 - !du: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
