@@ -25,7 +25,7 @@ Defaults: Module is enabled, Maintain appearances thorugh target changes enabled
 ## Known bugs
 The following bugs pertain to body costumes only. Other parts are largely unaffected and will copy over.
 - If your costume only is available for cloth, then you can only target cloth classes. Attempting to do otherwise could cause a floating head effect or default armor look, although from my tests, this is only occuring to elins?  Armor type limited costume largely appears in fash coupon shops only, so other costume where any armor type can wear will work.
-- When a user has modesty costume on, then your costume won't be able to show. Workaround still needs to be found.
+- When a user has modesty potion on, then your costume won't be able to show. Workaround still needs to be found.
 - Using this on another race will cause their costume to revert to default, even if that costume is available for that race too (eg: winter orchid is available to all classes and race, but using a castanic ver on an elin just reverts the elin costume to a defaulted one). There is no workaround for this because the ids are different for different races i have to log every single costume id of the different classes for each costume if i were to do this, but there is a way to enter your custom costume ids soon.
 - It worked alright when i unequipped costume and left the equipments or inners(fml,see safety advice 1) equipped.  I tested a castanic and lul, have you seen a elin using arccannon before?
 
