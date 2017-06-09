@@ -1,5 +1,7 @@
-//const modes= require('./modes')
+const custom_mod=true; //Change this to true if you use custom proxy modules that changes appearances. Set to false otherwise. Experimental.
+	  //keep_modesty=false;
 
+//const modes= require('./modes')
 module.exports = function dressupf(dispatch) {
 	let players=[],
 		changed=[],	//playerarray player[i].igname, player[i].id
@@ -34,9 +36,6 @@ module.exports = function dressupf(dispatch) {
 		if(enabled) {
 			players.push({igname:event.name.toLocaleLowerCase(),id:event.cid}); //tolocalelowercase for other regions igns of different locale?
 		};
-		if(debug){
-		message(JSON.stringify(players));
-		};
 	});
 	
 	dispatch.hook('C_START_INSTANCE_SKILL',1,event => {
@@ -65,16 +64,16 @@ module.exports = function dressupf(dispatch) {
 		changed=[];
 	});
 	
-	//hook sUserExtChange, PC need to requip something for this to trigger for now. Todo: automatically add in properties using sLogin			
-	dispatch.hook('S_USER_EXTERNAL_CHANGE',1,event => {
+	//hook sUserExtChange, PC need to requip something for this to trigger for now.		
+	dispatch.hook('S_USER_EXTERNAL_CHANGE',1,event => {   //slienced packets wont be saved.
 		if(enabled && event.id.equals(playerid)) {	//must define this for only packets that matches PC
 			equips = Object.assign({},event),
 			message('Current Equipped saved');
 			if(debug){
 			message((JSON.stringify(equips)));//save equipment.
 			};
-		};
-		if(maintaincos && changed.length!==0) {
+		}
+		else if(maintaincos && changed.length!==0) {  // for other characters !== PC
 			for(var i=0;i<changed.length;i++) { 
 				if(event.id.equals(changed[i].id)) {
 					return false;
@@ -84,6 +83,17 @@ module.exports = function dressupf(dispatch) {
 		};
 	});
 	
+	if(custom_mod) {
+		dispatch.hook('S_USER_EXTERNAL_CHANGE',1,{order:6,filter:{fake:true}},event => { 	//hooks for fake packets from other modules, hook later to prevent clashes?
+			if(enabled && event.id.equals(playerid)) {	
+				equips = Object.assign({},event),
+				message('Current Equipped saved');
+				if(debug){
+				message((JSON.stringify(equips)));//save equipment.
+				};
+			};
+		});
+	};
 	
 	dispatch.hook('C_CHAT', 1, event => {
 		if(event.message.includes('!dressup ')) {
