@@ -1,5 +1,5 @@
 # DressUpYourFriends
-Version 0.1: Initial release with basic working features
+Version 0.11: Greet to change added
 
 A Tera Proxy Module to change the look of your friends, enemies or anyone in your visible vicnity. Appearance is Client Sided!!! Using the commands on anyone will cause their equipped costumes/equipment to change to look like yours. Currently copies every costume/equipment on you, but appearance (skintone,hair,face etc) is unaffected.
 
@@ -37,7 +37,6 @@ Other bugs:
 
 
 ## TODO
-- Allow changing of appearance via greeting the target. (So you dont have to type any names :) )
 - Save player equipments from other modules that changes looks too (filter.fake=true)
 - Give a command to allow players to customize their saved look using item ids, so they can put different costumes on the changed target and do not necessary become a copy of the target costume. Especially weapons, which should not be replaced. No more Elin carrying an arcannon. That looked so weird. 
 - Give different options to users that allow them to only copy certain equipments. (ie: only change body costume, while leaving the rest as target's original costume)- requires indexing 
