@@ -1,10 +1,13 @@
+//const modes= require('./modes')
+
 module.exports = function dressupf(dispatch) {
 	let players=[],
 		changed=[],	//playerarray player[i].igname, player[i].id
 		equips={},	
 		enabled=true, //not used now
 		debug=false,  //display debug messages
-		maintaincos=true, //default maintain of costume
+		maintaincos=true,//default maintain of costume
+		greeting=false,	//default greeting changes costume
 		playerid,
 		newcostume,
 		num=1;
@@ -12,7 +15,8 @@ module.exports = function dressupf(dispatch) {
 	//cid==target==id
 	//sSpawnUser==info on other players
 	//sUserExtChange==player/PC changes to costume
-	
+	//Ninjas are unique in itself and using another class costume on ninja just invalidates the costume and causes floating head. 
+	//Using ninja classes costume on a non ninja elins just causes no changes.
 	dispatch.hook('S_LOGIN', 1, event => {
 		playerid = event.cid;
 	});
@@ -20,7 +24,7 @@ module.exports = function dressupf(dispatch) {
 	//hook to save players names:
 	dispatch.hook('S_SPAWN_USER',3,event => {  
 		for(var i=0; i<players.length ;i++) {
-			if(event.cid.equals(players[i].id)) { //MUST USE .equals and not ===, goddam i spent 4hours looking thru just to see this stupid mistake
+			if(event.cid.equals(players[i].id)) {
 				if(debug) {
 				message('not saved');
 				};
@@ -35,6 +39,15 @@ module.exports = function dressupf(dispatch) {
 		};
 	});
 	
+	dispatch.hook('C_START_INSTANCE_SKILL',1,event => {
+		if(greeting && (event.skill===127510165)) {	
+			var greetid = event.targets[0].target;
+			pushcostume(greetid),
+			message('Greet target changed');			
+		};
+	});
+						
+		
 	dispatch.hook('S_DESPAWN_USER',1,event => { //remove users when out of range, very important to keep arrays small		
 		for(var i=0; i<players.length ;i++) {
 			if(event.target.equals(players[i].id)) {	//match id to target, if true remove the whole array index--Reminder:Do not use === for object comparison
@@ -94,15 +107,26 @@ module.exports = function dressupf(dispatch) {
 					maintaincos=true,
 					message('Costume maintained');
 			}
-			else {
-				if(enabled) {
-					enabled=false,
-					players=[],
-					message('Disabled DressupFriends');
+			else if(event.message.includes('greeting')){
+				if(greeting) {
+					greeting=false,
+					message('Greet to change disabled');
 				}
 				else
-					enabled=true,
-					message('Enabled DressupFriends');
+					greeting=true,
+					message('Greet to change enabled');
+			};
+			return false;
+		};
+		if(/^<FONT>!du<\/FONT>$/i.test(event.message)) {
+			if(enabled) {
+				enabled=false,
+				players=[],
+				message('Disabled DressupFriends');
+			}
+			else {
+				enabled=true,
+				message('Enabled DressupFriends');
 			};
 			return false;
 		};
