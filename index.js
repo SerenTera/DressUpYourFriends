@@ -73,7 +73,7 @@ module.exports = function dressupf(dispatch) {
 	
 	
 	dispatch.hook('C_CHAT', 1, event => {
-		if(event.message.includes('!dressup')) {
+		if(event.message.includes('!dressup ')) {
 			let namestr=(event.message).replace('</FONT>','').replace('<FONT>','').replace('!dressup','').replace(' ','').toLocaleLowerCase();
 			for(var i=0;i<players.length;i++) {
 				if(players[i].igname===namestr) {
@@ -84,7 +84,7 @@ module.exports = function dressupf(dispatch) {
 			};
 			return false;
 		};
-		if(event.message.includes('!du')) {
+		if(event.message.includes('!du ')) {
 			if(event.message.includes('maintain')){
 				if(maintaincos) {
 					maintaincos=false,
