@@ -1,6 +1,6 @@
 const custom_mod=true; //Change this to true if you use custom proxy modules that changes appearances. Set to false otherwise. Experimental.
 
-const CHANGER_ABNORMALITY=[7777001,7777003,7777007,7000005,7000001]; //Current Abnormality ids of shape changers/self confidence
+const CHANGER_ABNORMALITY=[7777001,7777003,7777007,7000005,7000001,7000011]; //Current Abnormality ids of shape changers/self confidence
 //const Modes= require('./modes')
 module.exports = function dressupf(dispatch) {
 	//Defaults:
