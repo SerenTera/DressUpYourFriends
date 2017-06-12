@@ -7,11 +7,13 @@ Abnormality id				Description
 
 -----------Above are derived by using the proper potions in game. Below are command derived using dispatches-----------------------------
 
-7000012						Chest changer	//Only Elastic armor version (?)
+7000012						Chest changer	//Present version? Only Elastic armor version (?)
 7000013						Height changer	//Present version?
 7000014						Thighs changer  //Present version? no diff to 04
+7000002						Chest changer	//Present version? only works with swimwear version (?)
+
+------------------------Old ids?---------------------------------------------------------------------------------------------------
 7000015						Physical Change:Size //unused?
-7000002						Chest changer	//only works with swimwear version (?)
 7000003						Height changer	//Unused/old version?
 7000004						Thighs changer	//Unused/old version? No diff to 14
 
