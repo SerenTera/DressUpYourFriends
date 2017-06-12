@@ -1,29 +1,29 @@
 const custom_mod=true; //Change this to true if you use custom proxy modules that changes appearances. Set to false otherwise. Experimental.
-	  //keep_modesty=false;
 
-//const modes= require('./modes')
+const CHANGER_ABNORMALITY=[7777001,7777003,7777007,7000005,7000001]; //Current Abnormality ids of shape changers/self confidence
+//const Modes= require('./modes')
 module.exports = function dressupf(dispatch) {
+	//Defaults:
+	let enabled=true, //not used now
+		debug=false,  //display debug messages
+		maintaincos=true,//default maintain of costume
+		ignorechangers=false, //default ignore big head/modesty shape changers, true=ignore changers on target, false=allow changers on target.
+		greeting=false;	//default greeting changes costume
+	
 	let players=[],
 		changed=[],	//playerarray player[i].igname, player[i].id
 		equips={},	
-		enabled=true, //not used now
-		debug=false,  //display debug messages
-		maintaincos=true,//default maintain of costume
-		greeting=false,	//default greeting changes costume
 		playerid,
 		newcostume,
 		num=1;
-	//filter.fake=true
-	//cid==target==id
-	//sSpawnUser==info on other players
+		
 	//sUserExtChange==player/PC changes to costume
 	//Ninjas are unique in itself and using another class costume on ninja just invalidates the costume and causes floating head. 
 	//Using ninja classes costume on a non ninja elins just causes no changes.
 	dispatch.hook('S_LOGIN', 1, event => {
 		playerid = event.cid;
 	});
-	
-	//hook to save players names:
+
 	dispatch.hook('S_SPAWN_USER',3,event => {  
 		for(var i=0; i<players.length ;i++) {
 			if(event.cid.equals(players[i].id)) {
@@ -65,7 +65,7 @@ module.exports = function dressupf(dispatch) {
 	});
 	
 	//hook sUserExtChange, PC need to requip something for this to trigger for now.		
-	dispatch.hook('S_USER_EXTERNAL_CHANGE',1,event => {   //slienced packets wont be saved.
+	dispatch.hook('S_USER_EXTERNAL_CHANGE',1,event => {   //slienced packets wont be saved by default.
 		if(enabled && event.id.equals(playerid)) {	//must define this for only packets that matches PC
 			equips = Object.assign({},event),
 			message('Current Equipped saved');
@@ -125,9 +125,20 @@ module.exports = function dressupf(dispatch) {
 				else
 					greeting=true,
 					message('Greet to change enabled');
+			}
+			else if(event.message.includes('changers')){
+				if(ignorechangers) {
+					ignorechangers=false,
+					message('Ignore shape changers disabled');
+				}
+				else
+					ignorechangers=true,
+					message('Ignore shape changers enabled');
 			};
 			return false;
 		};
+		
+		
 		if(/^<FONT>!du<\/FONT>$/i.test(event.message)) {
 			if(enabled) {
 				enabled=false,
@@ -142,7 +153,15 @@ module.exports = function dressupf(dispatch) {
 		};
 	});
 			
-			
+	function endabnormality(targetidn) {
+		for(let skillid of CHANGER_ABNORMALITY) {
+			dispatch.toClient('S_ABNORMALITY_END',1, {
+				target:targetidn,
+				id:skillid
+			});
+		};
+	};
+		
 	function pushcostume(playeridn) {
 		if(num===1) {  
 			newcostume = Object.assign(equips,{id:playeridn});
@@ -153,7 +172,8 @@ module.exports = function dressupf(dispatch) {
 		dispatch.toClient('S_USER_EXTERNAL_CHANGE', 1, newcostume);	
 		for(var i=0;i<changed.length;i++) {
 			if(changed[i].id.equals(playeridn)) return;
-		}	
+		}
+		if(ignorechangers) {endabnormality(playeridn)};
 		changed.push({id:playeridn});
 	};
 	
@@ -169,4 +189,3 @@ module.exports = function dressupf(dispatch) {
 		});
 	};
 };
-				
