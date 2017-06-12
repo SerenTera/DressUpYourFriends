@@ -127,7 +127,7 @@ module.exports = function dressupf(dispatch) {
 					message('Greet to change enabled');
 			}
 			else if(event.message.includes('changers')){
-				if(ignorechangers) {
+				if(negatechangers) {
 					negatechangers=false,
 					message('Negate shape changers disabled');
 				}
@@ -191,4 +191,4 @@ module.exports = function dressupf(dispatch) {
 		});
 	};
 };
-				
+	
