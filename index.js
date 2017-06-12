@@ -7,7 +7,7 @@ module.exports = function dressupf(dispatch) {
 	let enabled=true, //not used now
 		debug=false,  //display debug messages
 		maintaincos=true,//default maintain of costume
-		ignorechangers=false, //default ignore big head/modesty shape changers, true=ignore changers on target, false=allow changers on target.
+		negatechangers=false, //default negate big head/self confidence shape changers, true=remove/negate changers on target, false=allow changers on target.
 		greeting=false;	//default greeting changes costume
 	
 	let players=[],
@@ -16,7 +16,7 @@ module.exports = function dressupf(dispatch) {
 		playerid,
 		newcostume,
 		num=1;
-		
+	// for..in={object based.}, returns indexes, for..of=[ array based.], return value	
 	//sUserExtChange==player/PC changes to costume
 	//Ninjas are unique in itself and using another class costume on ninja just invalidates the costume and causes floating head. 
 	//Using ninja classes costume on a non ninja elins just causes no changes.
@@ -128,12 +128,12 @@ module.exports = function dressupf(dispatch) {
 			}
 			else if(event.message.includes('changers')){
 				if(ignorechangers) {
-					ignorechangers=false,
-					message('Ignore shape changers disabled');
+					negatechangers=false,
+					message('Negate shape changers disabled');
 				}
 				else
-					ignorechangers=true,
-					message('Ignore shape changers enabled');
+					negatechangers=true,
+					message('Negate shape changers enabled');
 			};
 			return false;
 		};
@@ -156,8 +156,8 @@ module.exports = function dressupf(dispatch) {
 	function endabnormality(targetidn) {
 		for(let skillid of CHANGER_ABNORMALITY) {
 			dispatch.toClient('S_ABNORMALITY_END',1, {
-				target:targetidn,
-				id:skillid
+				target: targetidn,
+				id: skillid
 			});
 		};
 	};
@@ -169,11 +169,13 @@ module.exports = function dressupf(dispatch) {
 			message('save'+JSON.stringify(newcostume));
 			};
 		};
+		if(negatechangers) {
+			endabnormality(playeridn);
+		};
 		dispatch.toClient('S_USER_EXTERNAL_CHANGE', 1, newcostume);	
 		for(var i=0;i<changed.length;i++) {
 			if(changed[i].id.equals(playeridn)) return;
-		}
-		if(ignorechangers) {endabnormality(playeridn)};
+		};
 		changed.push({id:playeridn});
 	};
 	
@@ -189,3 +191,4 @@ module.exports = function dressupf(dispatch) {
 		});
 	};
 };
+				
