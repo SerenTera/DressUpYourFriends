@@ -4,6 +4,7 @@ Abnormality id				Description
 7777008-7777014				False Modesty potions. Untested, but should be these: 7777008,77770010,7777014.
 7000005						Shape Changer:Grow/Shrink //size changes with stacks number,4 for normal, 1,2,3-shrink and 5,6,7-grow
 7000001						Big head potions
+7000011						Big head potions
 
 -----------Above are derived by using the proper potions in game. Below are command derived using dispatches-----------------------------
 
