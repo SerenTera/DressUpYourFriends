@@ -1,9 +1,9 @@
 # DressUpYourFriends
-Version 0.12: Compatibility with custom costume modules
+Version 0.13: Add ignore target changers/self confidence function.
 
 A Tera Proxy Module to change the look of your friends, enemies or anyone in your visible vicnity. Appearance is Client Sided!!! Using the commands on anyone will cause their equipped costumes/equipment to change to look like yours. Currently copies every costume/equipment on you, but appearance (skintone,hair,face etc) is unaffected.
 
-Might cause some lags in heavily populated areas? I dont know. But you can just disable the module and this clears all entry and effectively prevents the logging of targets. Might however be a cause of lag due to hooking of skill packets. If so, comment the hooking of 'C_START_INSTANCE_SKILL' out.
+Might cause some lags in heavily populated areas? Does not seem so from tests. But you can just disable the module and this clears all entry and effectively prevents the logging of targets. Might however be a cause of lag due to hooking of skill packets. If so, comment the hooking of 'C_START_INSTANCE_SKILL' out.
 
 Yes i know the code is messy af with comments everywhere. Just don't look LUL, i'm new to JS. Feel free to share, this is harmless, but risk is on you since you are using a proxy anyway.
 
@@ -14,10 +14,13 @@ To reset a target's appearance to their original, just move out till you cannot 
 
 Set 'custom_mod' in index.js to true if you use custom proxy modules that changes costumes, false if otherwise. This is true by default, setting to false will also stop the hooking of packets dispatched from proxy modules that changes costumes. (look for this line: const custom_mod=true;) 
 
-Defaults: Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled.
+There is an option to ignore changers. Changers are selfconfidence potions, Shrink/Grow potions and big head potions. When ignore changers is enabled, any target which has changers on will have their effect ended (client side) when attempting to dress them up.
+
+Defaults: Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers disabled (allow target to use maintain their changer appearances)
 ## Commands: Spaces are important if you want to block em from being broadcasted.
-- !du greeting: Toggles greet to change. Change someone's look to yours by greeting their character instead using 'Personalized greeting' skill. Works even with module disabled but only the last saved equip will be copied.
 - !dressup (name): Dress up the named person to look like you. Can be in any captialization, just spelling matters. Eg: '!dressup seren' can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
+- !du greeting: Toggles greet to change. Change someone's look to yours by greeting their character instead using 'Personalized greeting' skill. Works even with module disabled but only the last saved equip will be copied.
+- !du changers: Toggles ignore changers or not. Enable=ignore changers, ending their effect on the target. Disable does otherwise.
 - !du maintain: Toggles whether to maintain the changed costume on others even if they change their look.-Untested fully yet
 - !du: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
 - !du(number): change modes. Not Implemented Yet.
@@ -38,9 +41,7 @@ Other bugs:
 - Forced erp is a henious crime in the land of baldera. I am not responsible should you be caught by the popo(ri) due to misuse.
 - It is impossible for me to test every aspect so expect bugs here and there.
 
-
 ## TODO
-- Save player equipments from other modules that changes looks too (filter.fake=true)
 - Give a command to allow players to customize their saved look using item ids, so they can put different costumes on the changed target and do not necessary become a copy of the target costume. Especially weapons, which should not be replaced. No more Elin carrying an arcannon. That looked so weird. 
 - Give different options to users that allow them to only copy certain equipments. (ie: only change body costume, while leaving the rest as target's original costume)- requires indexing 
 
