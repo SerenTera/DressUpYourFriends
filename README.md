@@ -3,7 +3,7 @@ Version 0.13: Add ignore target changers/self confidence function.
 
 A Tera Proxy Module to change the look of your friends, enemies or anyone in your visible vicnity. Appearance is Client Sided!!! Using the commands on anyone will cause their equipped costumes/equipment to change to look like yours. Currently copies every costume/equipment on you, but appearance (skintone,hair,face etc) is unaffected.
 
-Might cause some lags in heavily populated areas? Does not seem so from tests. But you can just disable the module and this clears all entry and effectively prevents the logging of targets. Might however be a cause of lag due to hooking of skill packets. If so, comment the hooking of 'C_START_INSTANCE_SKILL' out.
+Might cause some lags in heavily populated areas? Does not seem so from tests. But you can just disable the module and this clears all entry and effectively prevents the logging of targets.
 
 Yes i know the code is messy af with comments everywhere. Just don't look LUL, i'm new to JS. Feel free to share, this is harmless, but risk is on you since you are using a proxy anyway.
 
@@ -14,7 +14,7 @@ To reset a target's appearance to their original, just move out till you cannot 
 
 Set 'custom_mod' in index.js to true if you use custom proxy modules that changes costumes, false if otherwise. This is true by default, setting to false will also stop the hooking of packets dispatched from proxy modules that changes costumes. (look for this line: const custom_mod=true;) 
 
-There is an option to ignore changers. Changers are selfconfidence potions, Shrink/Grow potions and big head potions. When ignore changers is enabled, any target which has changers on will have their effect ended (client side) when attempting to dress them up. Currently i only added those that i think are the ones that are used by tera currently, so that there is no need to end 20 over abnormalities. If somehow the changers are not ignored, then add more ids on your own. I included a list of ids.
+There is an option to ignore changers. Changers are selfconfidence potions, Shrink/Grow potions and big head potions. When ignore changers is enabled, any target which has changers on will have their effect ended (client side) when attempting to dress them up. Currently I only added those that I logged from tera currently, so that there is no need to end 20 over abnormalities. If somehow the changers are not ignored, then add more ids on your own in CHANGER_ABNORMALITY. I included a list of ids, and if you also want to negate height/chest/thigh changers, add in those ids on your own too (use present version indicated ones).
 
 Defaults: Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers disabled (allow target to use maintain their changer appearances)
 ## Commands: Spaces are important if you want to block em from being broadcasted.
