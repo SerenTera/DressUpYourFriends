@@ -14,7 +14,7 @@ To reset a target's appearance to their original, just move out till you cannot 
 
 Set 'custom_mod' in index.js to true if you use custom proxy modules that changes costumes, false if otherwise. This is true by default, setting to false will also stop the hooking of packets dispatched from proxy modules that changes costumes. (look for this line: const custom_mod=true;) 
 
-There is an option to ignore changers. Changers are selfconfidence potions, Shrink/Grow potions and big head potions. When ignore changers is enabled, any target which has changers on will have their effect ended (client side) when attempting to dress them up.
+There is an option to ignore changers. Changers are selfconfidence potions, Shrink/Grow potions and big head potions. When ignore changers is enabled, any target which has changers on will have their effect ended (client side) when attempting to dress them up. Currently i only added those that i think are the ones that are used by tera currently, so that there is no need to end 20 over abnormalities. If somehow the changers are not ignored, then add more ids on your own. I included a list of ids.
 
 Defaults: Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers disabled (allow target to use maintain their changer appearances)
 ## Commands: Spaces are important if you want to block em from being broadcasted.
