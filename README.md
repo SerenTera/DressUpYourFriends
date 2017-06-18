@@ -35,7 +35,7 @@ Module functionality commands:
 Commands to customise your equips to copy:
 - !ducustom fix: If you have a custom module (eg: costume-ex) you can use this command to stop the such modules from changing your appearance, yet saving the infomation of the changes to the equips to be copied onto target. This only works for 1 change. This is probably only useful if using dressing room, you can use this command, enter dress room and exit without your appearance changing but the saved equipped will be changed, if you wish to look different from your target.
 - !ducustom ['weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye']- This command allows you to enter the itemId to modify your saved equipped infomation. All array must be filled, use 'x' to blank it out if you do not want to change that part. Not working yet
--!ducustom (part name)(itemId) - Changes the part saved in your saved equipped costume/appearance to the itemId entered. Not working yet.
+- !ducustom (part name)(itemId) - Changes the part saved in your saved equipped costume/appearance to the itemId entered. Not working yet.
 
 List of part names (type without the ''): 'weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye'
 
