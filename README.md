@@ -94,6 +94,8 @@ Part names are: weapon,chest,inner,chestdye,enchantment,hat,mask,back,weaponskin
 
 Example: '!ducustom hat 150208,weaponskin 185498,costume 255196' to change your saved hat/weaponskin/costume equipped to Bizzare tiered hat, castanic wedding dress, and a plasma cannon weaponskin.
 
+You can also just use '!ducustom costume 255196' if you just want to change a aingle part. In this example it changes the saved costume to castanic wedding dress.
+
 ## Known bugs
 The following bugs pertain to body costumes only. Other parts are largely unaffected and will copy over.
 - If your costume only is available for cloth, then you can only target cloth classes. Attempting to do otherwise could cause a floating head effect or default armor look, although from my tests, this is only occuring to elins?  Armor type limited costume largely appears in fash coupon shops only, so other costume where any armor type can wear will work.
