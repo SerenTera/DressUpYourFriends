@@ -3,16 +3,16 @@ const CUSTOM_MOD=true, 		 //Change this to true if you use custom proxy modules 
 	  COMMAND_MODULE=false;  //Change this for Command module support. Currently unsupported yet, keep it false.
 	  
 const modes=require('./modes'); 
-const CHANGER_ABNORMALITY=[7777001,7777003,7777007,7000005,7000001,7000011], //Current Abnormality ids of shape changers/self confidence
+const CHANGER_ABNORMALITY=[7777001,7777003,7777007,7000005,7000001,7000011,806001], //Current Abnormality ids of shape changers/self confidence/zombie pot
 	  customchat=['weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye']; //shortcut name for custom changes: [weapon,chest,innerwear,chestDye,weaponEnchant,hairAdornment,mask,back,weaponSkin,costume,costumeDye]
-	  //customchat=['hairAdornment','mask','back','weaponSkin','costume']; //Uncomment any set you like to use instead and comment out the other one. This one simplify the id based customization. Do so on modes.js too.
+	  
 		
 module.exports = function dressupf(dispatch) {
 	//Defaults:
-	let enabled=true, //default enabling of object
+	let enabled=true, //default enabling of object. Keep at false if you do not use this module often.
 		negatechangers=false, //default negate big head/self confidence shape changers, true=remove/negate changers on target, false=allow changers on target.
 		greeting=false,	//default greeting changes costume
-		fix=false,
+		fix=false, //default fixing of costume. Don't change this, use ingame command to change instead.
 		mode=0; //default mode of module.
 	
 	let players=[],
@@ -51,14 +51,14 @@ module.exports = function dressupf(dispatch) {
 	
 	dispatch.hook('S_DESPAWN_USER',1,event => { //remove users when out of range, very important to keep arrays small		
 		for(var i=0; i<players.length ;i++) {
-			if(event.target.equals(players[i].id)) {	//match id to target, if true remove the whole array index--Reminder:Do not use === for object comparison
+			if(event.target.equals(players[i].id)) {	
 				players.splice((i),1);
 				break;
 			};
 		};
 	});
 	
-	dispatch.hook('S_SPAWN_ME',1, event => { //reset namelists when changing locations
+	dispatch.hook('S_SPAWN_ME',1, event => { //reset namelist on location change
 		players=[],
 		changed=[];
 	});
@@ -91,7 +91,7 @@ module.exports = function dressupf(dispatch) {
 	
 	dispatch.hook('C_CHAT', 1, event => {
 		//Change appearance
-		if(event.message.includes('!dressup ')) {
+		if(event.message.includes('!dressup')) {
 			let namestr=(event.message).replace('</FONT>','').replace('<FONT>','').replace('!dressup','').replace(' ','').toLocaleLowerCase();
 			for(var i=0;i<players.length;i++) {
 				if(players[i].igname===namestr) {
@@ -131,6 +131,21 @@ module.exports = function dressupf(dispatch) {
 					fix=true,
 					message('Saved equipment Fixed');
 			}	
+			else if(event.message.includes('id')) {
+				let namest=(event.message).replace('</FONT>','').replace('<FONT>','').replace('!du id','').replace(' ','').toLocaleLowerCase();	
+				for(var i=0;i<players.length;i++) {
+					if(players[i].igname===namest) {
+						let idtext={},
+						playeridequip=players[i].playerequip;
+						for(let i in customchat) {
+							idtext[customchat[i]]=playeridequip[i];
+						};
+						message('Player '+namest+' costume ids are: '+JSON.stringify(idtext));
+						break;
+					};
+				};
+			}
+				
 			else {
 				mode= parseInt((event.message.replace(/[^0-9\.]/g, '')),10);
 				if(isNaN(mode)) {
@@ -142,7 +157,7 @@ module.exports = function dressupf(dispatch) {
 							modemessage.push(customchat[i]);
 						};
 					};
-					message('Mode changed. Following parts will be kept: '+modemessage+mode),
+					message('Mode changed. Following parts will be kept: '+ modemessage),
 					modemessage=[];
 				}
 				else if(mode>(modes.totalmode()-1)) {
@@ -155,13 +170,18 @@ module.exports = function dressupf(dispatch) {
 			return false;
 		};	
 		
-		//customise saved equipment (only fix works)
+		//customise saved equipment
 		if(event.message.includes('!ducustom ')) {
-			if(event.message.includes('[')) {
-				let customset=JSON.parse("["+event.message.replace(/[^0-9\,\x\X]/g, '')+"]");
-				newcustom=modes.customchange(customset),
-				message('Custom change to '+newcustom);
-				Object.assign(equips,newcustom);
+			if(event.message.includes('(')) {
+				let customset=event.message.replace(/[^0-9\,\x\X]/g, '');
+				customset=customset.split(",");
+				newcustom=modes.customchange(customset);
+				if(Object.keys(newcustom).length===0) {
+					message('Custom change error: Empty/Wrong input. Check that you use () with 11 itemIDs or x')
+				}
+				else
+					message('Custom change to '+JSON.stringify(newcustom)),
+					Object.assign(equips,newcustom);
 			}
 			else if(event.message.includes('fix') && CUSTOM_MOD) {
 				dispatch.hookOnce('S_USER_EXTERNAL_CHANGE',1,{order:7,filter:{fake:true}},event => { //Only if you use custom mods that changes equip via S_USER_EXTERNAL_CHANGE
@@ -173,14 +193,23 @@ module.exports = function dressupf(dispatch) {
 				});
 			}
 			else {
-				let customstring=event.message.replace('</FONT>','').replace('<FONT>','').replace('!ducustom','').replace(' ','').replace(/[0-9\.]/g, '').toLowerCase(),
-					customid=parseInt(event.message.replace(/[^0-9\.]/g, ''));
-				if(customchat.includes(customstring)) { 
-					stringindex=customchat.indexOf(customstring.toString()); //techincally not strict equal (===)
-					newcustom=modes.changesingle(stringindex,customid),
-					message('Custom single change '+ newcustom);
-					Object.assign(equips,newcustom);  //repeatable and will continue to be kept so long as it is not changed again.
+				let customstring=event.message.replace('</FONT>','').replace('<FONT>','').replace('!ducustom','').replace(/[0-9]/g, '').replace(/ /g,'').toLowerCase().split(","),
+					customidstr=event.message.replace(/[^0-9\,]/g, '').replace(/ /g,'').split(","),
+					stringindex=[],
+					customid=[];
+				for(let i in customstring) {
+					if(customchat.includes(customstring[i])) {
+						stringindex.push(customchat.indexOf(customstring[i]));
+						customid.push(customidstr[i]);
+					};
 				};
+				newcustom=modes.changesingle(stringindex,customid);
+				if(typeof(newcustom)=== 'object'){Object.assign(equips,newcustom)};  //repeatable and will continue to be kept so long as it is not changed again.
+				if(Object.keys(newcustom).length===0) {
+					message('Custom part change error: Empty/Wrong input. Check spellings and , is used to separate parts.')
+				}
+				else
+					message('Custom part change '+ JSON.stringify(newcustom));
 			};
 			return false;
 		};
@@ -210,7 +239,6 @@ module.exports = function dressupf(dispatch) {
 		};
 	};
 	
-	//WHEN USING OBJECT.ASSIGN FOR A NEW OBJECT, MUST USE Object.assign({},object,object), as it will return the target object!
 	function pushcostume(playeridn,playereqp) {		
 		let targetmodeeqp= modes.targetequip(mode,playereqp),
 			newcostume= Object.assign({},equips,{id:playeridn},targetmodeeqp);
