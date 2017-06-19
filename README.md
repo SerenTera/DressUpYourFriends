@@ -122,7 +122,7 @@ Surgeon module might work to ensure race compatibility. Untested yet.
 
 The compatibility with other modules is an experimental feature. Tests have shown that it works but there might be bugs.
 ## Credits 
-- Bernkastel's Costume-ex for allowing me to understand the fact that I needed to use .equals instead of === (im noob)
+- Bernkastel's Costume-ex for module feature testing and better customization.
 https://github.com/Bernkastel-0/
 - Teralove's emote-player module for the looping code to save players name/ign 
 https://github.com/teralove/
