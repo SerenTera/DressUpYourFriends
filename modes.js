@@ -1,7 +1,7 @@
-//This file contains all the potential mode combinations as well as inner combinations.
+//This file contains all the potential mode combinations.
 //modefunc contains the array index of customequipname that is to be excluded from being copied over.
 const customequipname=['weapon','chest','innerwear','chestDye','weaponEnchant','hairAdornment','mask','back','weaponSkin','costume','costumeDye']; //index: 0=weapon,1=chest,2=innerwear... etcetc
-	  //customequipname=['hairAdornment','mask','back','weaponSkin','costume']; //uncomment the set you like to use instead. Comment out the other set. ONLY use one at a time.
+	  
 		  
 //List of modes:
 //indexes to keep follow customequipname, just add modes by using this format (modenumber)=[index,index,index....], eg 7:[0,1] to keep weapon and chest.
@@ -14,13 +14,14 @@ const modefunc={
 			5:[1,3],		 //[chest,chestDye] keeps target chest
 			6:[0,4]			//keep target weapon w/o skin
 		};
+		
 module.exports = {		
 
 	totalmode() {
 		return Object.keys(modefunc).length;
 	},
 	
-	targetequip(num,playerequipset) {
+	targetequip(num,playerequipset) { //change what equip to keep on target
 		let mergeequip={};
 		if(isNaN(num)) {
 			for(let index of num) {
@@ -47,7 +48,11 @@ module.exports = {
 	
 	changesingle(stringindex,customid) { //single string changer
 		let singleequip={};
-		singleequip[customequipname[stringindex]]=customid;
+		if(stringindex.length===customid.length) {
+			for(let i in stringindex) {
+				singleequip[customequipname[stringindex[i]]]=customid[i];
+			};
+		};
 		return singleequip
 	}
 	
