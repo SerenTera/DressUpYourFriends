@@ -113,7 +113,9 @@ Other bugs:
 - It is impossible for me to test every aspect so expect bugs here and there.
 
 ## TODO
--Fix bug
+- Use commands to open dressing room using dispatch so users can change their saved equips without changing their appearances. Packets will not be intercepted by other modules. 
+- Port over commands with commands module by Pinkie Pie
+- Fix bug
 
 ## Compatibility with other modules
 Might have issues with other modules that are undetected, although I have coded hooks to run later than other modules to see changes made and log them. This does not interfere/modify the dispatched packets from other modules. The only packet that comes through and modified (silenced) is 'S_USER_EXTERNAL_CHANGE' in the case where it is from a target that is not the playing character.
