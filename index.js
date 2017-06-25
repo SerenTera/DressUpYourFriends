@@ -94,13 +94,6 @@ module.exports = function dressupf(dispatch) {
 		if(changerlist[event.target] && CHANGER_ABNORMALITY.includes(event.id)) {return false};
 	});
 	
-	dispatch.hook('C_START_INSTANCE_SKILL',1,event => {
-		if(greeting && (event.skill===127510165)) {	
-			var greetid = event.targets[0].target;
-			pushcostume2(greetid),
-			command.message('(Dressup) Greet target changed');			
-		};
-	});
 	
 	dispatch.hook('S_DESPAWN_USER',1,event => { //remove users when out of range, very important to keep arrays small		
 		for(var i=0; i<players.length ;i++) {
@@ -177,16 +170,6 @@ module.exports = function dressupf(dispatch) {
 		};
 	});
 	//Commands that affects features when applying the equipments
-	command.add('dugreeting', () => { //fucking useless command
-		if(greeting) {
-			greeting=false,
-			command.message('(Dressup)Greet to change disabled');
-		}
-		else
-			greeting=true,
-			command.message('(Dressup)Greet to change enabled');
-	});
-	
 	command.add('duchangers', () => {
 		if(negatechangers) {
 			negatechangers=false,
