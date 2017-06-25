@@ -1,18 +1,25 @@
 # DressUpYourFriends
-Version 1.1: Finished module
+Version 1.2: Added Support for Commands Modules(by Pinkie Pie),Import/Export abilities and ability to save player's costume changes though logouts/when out of range. Removed Greet to change.
+
+Requires Commands module by Pinkie-Pie:https://github.com/pinkipi/command
 
 A Tera Proxy Module to change the look of your friends, enemies or anyone in your visible vicnity. Appearance is Client Sided. Using the commands on anyone will cause their equipped costumes/equipment to change to look like yours. Can be customized using itemids.
 
 Disable the module and this clears all entries and effectively prevents the logging of targets if you face lag in high population area.
 
-Short list of commands:
+Short list of commands (Type with '!' prefix if not using /proxy chat):
 
-!dressup (name), !du, 
+dutoggle
 
-!du greeting, !du changers, !du fix, !du id (name), !du (mode number), !du (partname),
+dressup (name), dressupsave (name), dressupdelete (name)
 
-!ducustom fix, !ducustom (partname) (itemID)
+duchangers, dufix, duid (name), dumode (mode number), dumode (partname),...
 
+ducustom fix, ducustom (partname)(itemID),... and ducustom (array of 11 parts)
+
+duexport,duimport
+
+WILL COMPLETE README LATER. REFER TO THIS FOR NOW
 ## General instructions
 When logging in you should see a message 'current equipped saved'. When you change your appearance in any way, you should see this message again. This signifies the current equip you have is saved and to be copied onto your targets.
 
@@ -24,27 +31,37 @@ Set 'MAINTAIN_COSTUME' in index.js to true if you want to maintain the changed e
 
 There is an option to negate changers. Changers are selfconfidence potions, Shrink/Grow potions and big head potions. When negate changers is enabled, any target which has changers on will have their effect ended (client side) when attempting to dress them up. Currently I only added those that I logged from tera NA currently, so that there is no need to end 20 over abnormalities. If somehow the changers are not negated, then add more ids on your own in CHANGER_ABNORMALITY. I included a list of ids, and if you also want to negate height/chest/thigh changers, add in those ids on your own too (use 'present version' indicated ones).
 
-Defaults: Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers disabled (allow target to use maintain their changer appearances), mode=0. Change defaults in index.js.
+Defaults: Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers enabled (allow target to use maintain their changer appearances), mode=0. Change defaults in index.js.
 
-## Commands: Spaces are important if you want to block em from being broadcasted.
-Main action/module command:
-- !dressup (name): Dress up the named person to look like you. Can be in any captialization, just spelling matters. Eg: '!dressup seren' can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
-- !du: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
+## Commands: NO SPACES IN ARGUMENTS. use commas to separate multiple arguments.
+USE ! as prefix to any commands if u are not typing commands in /proxy chat. IMPORTANT!
+
+Main action/module command (PLayers must be visible in your vicinity):
+- dressup (name): Dress up the named person appearance with your saved costume/appearance. Can be in any captialization, just spelling matters. Eg: '!dressup seren' can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
+- dressupsave (name): Dress up AND SAVE the named person appearance with your saved costume/appearance. Works though logouts/out of range, where the character changed appearance will stay till it is deleted with next command OR module is disabled.
+- dressupdelete (name): Delete the named person saved by the previous command.
+- dutoggle: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
 
 Module functionality commands (add space after !du):
-- !du greeting: Toggles greet to change. Change someone's look to yours by greeting their character instead using 'Personalized greeting' skill. Works even with module disabled but only the last saved equip will be copied. The target will look exactly like you with no customization supported. Use name changing (!dressup name) if customization is desired.
-- !du changers: Toggles negate changers or not. Enable=negates changers, ending their effect on the target. Disable does otherwise.
-- !du fix: Toggle to fix the saved equip to the current one on you and prevent saving any further equip appearances even if you change your equipments. Toggle again to stop the fixing.
-- !du id (name):checks the item ID of the costume parts that the named target have. Must be in your vicinity. eg: !du id Seren checks seren's costume item ID.
-- !du (mode number): Change modes to prevent some parts from being changed. See modes section.
-- !du (part name):Prevent specific equip parts from being changed on the target. See modes section.
+- duchangers: Toggles negate changers or not. Enable=negates changers, ending their effect on the target. Disable does otherwise.
+- dufix: Toggle to fix the saved equip to the current one on you and prevent saving any further equip appearances even if you change your equipments. Toggle again to stop the fixing.
+- duid (name):checks the item ID of the costume parts that the named target have. Must be in your vicinity. eg: !du id Seren checks seren's costume item ID.
+- du (mode number): Change modes to prevent some parts from being changed. See modes section.
+- du (part name):Prevent specific equip parts from being changed on the target. See modes section.
 
 Commands to customise your equips to copy:
-- !ducustom fix: If you have a custom module (eg: costume-ex) you can use this command to temporarily stop the such modules from changing your appearance, yet saving the infomation of the changes to the equips to be copied onto target. This only works for 1 change. This is probably only useful if using dressing room, you can use this command, enter dress room and exit without your appearance changing but the saved equipped will be changed, if you wish to look different from your target. However, subsquent changes will cause the look saved by costume-ex to take over your appearances.
-- !ducustom ('weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye')- This command allows you to enter the itemId to modify your saved equipped infomation. All array must be filled, use 'x' to blank it out if you do not want to change that part. See customization section.
-- !ducustom (part name)(itemId),(part name)(itemId),.... - Changes the part saved in your saved equipped costume/appearance to the itemId entered. Enter multiple partname and id separated by a comma (,) for multiple changes. See customization section.
+- ducustom fix: If you have a custom module (eg: costume-ex) you can use this command to temporarily stop the such modules from changing your appearance, yet saving the infomation of the changes to the equips to be copied onto target. This only works for 1 change. This is probably only useful if using dressing room, you can use this command, enter dress room and exit without your appearance changing but the saved equipped will be changed, if you wish to look different from your target. However, subsquent changes will cause the look saved by costume-ex to take over your appearances.
+- ducustom ('weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye')- This command allows you to enter the itemId to modify your saved equipped infomation. All array must be filled, use 'x' to blank it out if you do not want to change that part. See customization section.
+- ducustom (part name)(itemId),(part name)(itemId),.... - Changes the part saved in your saved equipped costume/appearance to the itemId entered. Enter multiple partname and id separated by a comma (,) for multiple changes. See customization section.
 
+Commands for import/export
+- duexport: Create an export file (importdata.json) saving your character costume infomation. You can pass on to other players with this module to change what YOUR character looks like on their end, if their module is enabled and they have used the 'duimport' command. (SEE below). It is recommended you back this up somewhere else. Can contain multiple characters, so u can export all your alts, however you must enter this command on each one that you want to save. Overrides the saved character info if importdata.json already contains it with the new infomation. No cids are recorded, only name+itemIDs.
 
+- duimport: Imports the file (importdata.json) in your module folder. importdata.json obtained from other player must be put into the module folder where the index.js of this mod is located (ie: bin/node_modules/DressUpYourFriends, with -master if you are a lazy person lul). 
+
+- duimport (name): Same as previous command, only that instead of importing all the characters inside importdata.json, you only import the named character.
+
+One word about exports/imports is that if you play across multiple servers, then the appearances of all the same named characters will changed to be the same. So be wise which one you chose to export with.
 ## Modes
 This module saves the costume info of people around you so you can prevent certain parts on the target from being changed. You can customize the parts on the target you want to prevent from being changed using 2 methods:
 
