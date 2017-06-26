@@ -117,7 +117,7 @@ Part names are: weapon,chest,inner,chestdye,enchantment,hat,mask,back,weaponskin
 
 Example: 'ducustom hat150208,weaponskin185498,costume255196' to change your saved hat/weaponskin/costume equipped to Bizzare tiered hat, castanic wedding dress, and a plasma cannon weaponskin.
 
-You can also just use '!ducustom costume255196' if you just want to change a single part. In this example it changes the saved costume to castanic wedding dress.
+You can also just use 'ducustom costume255196' if you just want to change a single part. In this example it changes the saved costume to castanic wedding dress.
 
 Simple customization is stackable, where each change will modify the costume part and previous changes will still be counted in. The latest itemId for that part is copied.
 
