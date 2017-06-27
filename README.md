@@ -42,7 +42,7 @@ USE ! as prefix to any commands if u are not typing commands in /proxy chat. IMP
 
 ### Main action/module command (PLayers must be visible in your vicinity):
 - dressup (name): Dress up the named person appearance with your saved costume/appearance. Can be in any captialization, just spelling matters. Eg: 'dressup seren' can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
-- dressupsave (name): Dress up AND SAVE the named person appearance with your saved costume/appearance. Works though logouts/out of range, where the character changed appearance will stay till it is deleted with next command OR module is disabled. You can use this to decide what each individual on your server looks like on your end permenently till you disable/use next command. Eg: 'dressupsave seren' can dress up any igns seren,Seren, SEREN, seReN,etc and saves the changed appearance/costume. When 'Seren' is come across again after logouts/out of range, seren will be dressed up as what is saved.
+- dressupsave (name): Dress up AND SAVE the named person appearance with your saved costume/appearance. Works though logouts/out of range, where the character changed appearance will stay till it is deleted with next command OR module is disabled. You can use this to decide what each individual on your server looks like on your end permenently till you disable/use next command. Eg: 'dressupsave seren' can dress up any igns seren,Seren, SEREN, seReN,etc and saves the changed appearance/costume. When 'Seren' is come across again after logouts/out of range, seren will be dressed up as what is saved. The character datas are all saved in playerdata.json.
 - dressupdelete (name): Delete the named person saved by the previous command. Eg. 'dressupdelete Seren' deletes seren's saved data.
 - dutoggle: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
 
@@ -67,6 +67,8 @@ One word about saved characters using dressupsave is that if you play across mul
 - duimport (name): Same as previous command, only that instead of importing all the characters inside importdata.json, you only import the named character. eg: 'duimport seren' only imports seren character from importdata.json, even if other characters exists.
 
 One word about exports/imports is that if you play across multiple servers, then the appearances of all the same named characters will changed to be the same. So be wise which one you chose to export with.
+
+Also, what the duimport command does is to import the data from importdata.json into playerdata.json (the file created/saved in when you use dressupsave). After importing is done using duimport command, you can replace importdata.json with another player's so that multiple imports can be done from different players to create a common savefile (playerdata.json) where all the players characters will look like how it is on their end. 
 
 ## Modes (command: dumode)
 This module saves the costume info of people around you so you can prevent certain parts on the target from being changed. You can customize the parts on the target you want to prevent from being changed using 2 methods:
