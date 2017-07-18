@@ -365,7 +365,7 @@ module.exports = function dressupf(dispatch) {
 		if(fileopen) {
 			fileopen=false;
 			fs.writeFile(path.join(__dirname,filename), JSON.stringify(dataname), err => {
-				if(err) throw err;
+				if(err) command.message('Error Writing File, attempting to rewrite');
 				fileopen = true;
 			});
 		}
