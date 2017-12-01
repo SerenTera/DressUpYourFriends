@@ -10,7 +10,7 @@ const modes=require('./modes'),
 	
 const CHANGER_ABNORMALITY=[7777001,7777003,7777007,7000005,7000001,7000011,806001], //Current Abnormality ids of shape changers/self confidence/zombie pot
 	  customchat=['weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye'], //shortcut name for custom changes: [weapon,chest,innerwear,chestDye,weaponEnchant,hairAdornment,mask,back,weaponSkin,costume,costumeDye]
-	  customfilename=['weapon','chest','gloves','boots','head','face','weaponModel','chestModel','glovesModel','bootsModel','weaponDye','chestDye','glovesDye','bootsDye','weaponEnchant','hairAdornment','mask','back','weaponSkin','costume','costumeDye'];
+	  customfilename=['weapon','body','hand','feet','head','face','weaponModel','bodyModel','handModel','feetModel','weaponDye','bodyDye','handDye','feetDye','weaponEnchant','styleHead','styleFace','styleBack','styleWeapon','styleBody','styleFootprint','styleBodyDye'];
 
 module.exports = function dressupf(dispatch) {
 	//Defaults (Modify with true/false only, except for mode):
@@ -59,7 +59,7 @@ module.exports = function dressupf(dispatch) {
 		datanamestring=event.name.toLocaleLowerCase();
 	});
 
-	dispatch.hook('S_SPAWN_USER',3,event => {
+	dispatch.hook('S_SPAWN_USER',11,event => {
 		if(enabled)	{
 			let playername=event.name.toLocaleLowerCase();
 			for(var i=0; i<players.length ;i++) {  //unlikely but a double layer. Slows down code progress tho :S
