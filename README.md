@@ -1,4 +1,7 @@
 # DressUpYourFriends
+
+NOTE: THIS MODULE DOES NOT WORK WITH THE CURRENT PATCH DUE TO MULTIPLE PACKET DEFNINITION CHANGES AND REQUIRES SUBSTANTIAL CHANGES IN THE CODE. There are other costume alternatives out there already and thus, fixing this will be low priority for now, due to my heavy work schedule.
+
 Version 1.2: Added Support for Commands Modules(by Pinkie Pie),Import/Export abilities and ability to save player's costume changes though logouts/when out of range. Removed Greet to change.
 
 Requires Commands module by Pinkie-Pie:https://github.com/pinkipi/command
