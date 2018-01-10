@@ -1,8 +1,8 @@
 # DressUpYourFriends
 
-NOTE: THIS MODULE DOES NOT WORK WITH THE CURRENT PATCH DUE TO MULTIPLE PACKET DEFNINITION CHANGES AND REQUIRES SUBSTANTIAL CHANGES IN THE CODE. There are other costume alternatives out there already and thus, fixing this will be low priority for now, due to my heavy work schedule.
+NOTE: This module MIGHT work now with multiple bugs :x. Still currently stuck with both day work and evening studies (I cri), so fixing gonna be real slow. (By the way, I wasn't using old defs, those are the latest defs when I wrote this 6 months ago). Basic functionality should work. Might have bugs with other more uh less useful stuffs. dressup, dressupsave works as far as i tested, dumode using part name does not. Prob some others bugged out too :x . The readme is also incomplete, I'll finish them up later~
 
-Version 1.2: Added Support for Commands Modules(by Pinkie Pie),Import/Export abilities and ability to save player's costume changes though logouts/when out of range. Removed Greet to change.
+Version 2.0: Update for New definitions (less of this pls, at least the new defs allowed me to shave off quite alot of lines. ;-;), new code, simplify shit, old commands should still work but some are removed.
 
 Requires Commands module by Pinkie-Pie:https://github.com/pinkipi/command
 
@@ -16,9 +16,9 @@ dutoggle- Toggle enable/disable
 
 dressup (name), dressupsave (name), dressupdelete (name)- Changes target costume
 
-duchangers, dufix, duid (name), dumode (mode number), dumode (partname),... --- modes/toggling of module functions/check id
+duchangers, dufake, duid (name), dumode (mode number), dumode (partname),... --- modes/toggling of module functions/check id
 
-ducustom fix, ducustom (partname)(itemID),... and ducustom (array of 11 parts)--- customize equipped costume
+ducustom fix, ducustom (partname)(itemID),... and ducustom json--- customize equipped costume
 
 duexport,duimport --- import/export costume
 
@@ -93,13 +93,39 @@ Example: Type 'dumode 3' if you want to prevent target weapon, weapon skin and c
 ### Parts name: 
 This is a simpler way to customize the parts you want without using modes. Use the parts names together with the command 'dumode ' (notice the space! It's important) to customize which part on the target you want to prevent from being changed. Separate out the parts using commas(,) so that the command will be accepted
 
-Part names are as follows, costume/weaponskin are the emp/whatever costume items:
-
-weapon,chest,inner,chestdye,enchantment,hat,mask,back,weaponskin,costume,costumedye
-
+Part names are as follows, with the description at the side. Models are usually 0 afaik. Use this as new keywords when using ducustom/dumode. Spelling is all that matters, capitalization does not matter, the module will recognize the words.
+```
+	0:'weapon',  		//General equips on 1st tab in character profile
+	1:'body',
+	2:'hand',
+	3:'feet',
+	4:'underwear',
+	5:'head',
+	6:'face',
+	7:'weaponModel',	//I have to freaking idea whats model for but whatever
+	8:'bodyModel',
+	9:'handModel',
+	10:'feetModel',
+	11:'weaponDye',		//Dyes for general equips. have to input the entry readable by tera. Will work on this sometime to allow hexcode
+	12:'bodyDye',		
+	13:'handDye',
+	14:'feetDye',
+	15:'underwearDye',
+	16:'styleBackDye',
+	17:'styleHeadDye',
+	18:'styleFaceDye',
+	19:'weaponEnchant',	//Weapon Enchantment. 0-9 in this current patch I think.
+	20:'styleHead',		//The proper costumes on second tab
+	21:'styleFace',
+	22:'styleBack',
+	23:'styleWeapon',
+	24:'styleBody',
+	25:'styleFootprint',
+	26:'styleBodyDye'	//Dye for Body costume. Only applies if the costume is dyeable
+```
 Hopefully the part names are self explanatory.
 
-Example: type 'dumode hat,mask,back' if you want to stop hat, mask and back accessories of the target from being changed.
+Example: type 'dumode styleface,stylebody' if you want to stop hat, mask and back accessories of the target from being changed.
 
 ## Customization
 Additionally, you can set the costume you want to be pasted over onto the using commands and itemIds, in addition to using other modules that changes appearances (such as costume-ex), this allows you to achieve a different look from your target. However, any appearance changes made after customization will change back to the costume/equips on you, unless !du fix was used prior to customization. There are 2 commands available:
@@ -145,7 +171,9 @@ Other bugs:
 - It is impossible for me to test every aspect so expect bugs here and there.
 
 ## TODO
-- Fix bug
+- Fix bugs
+- Implement dye-ing using color hex codes
+- Re write Readme
 
 ## Compatibility with other modules
 Might have issues with other modules that are undetected, although I have coded hooks to run later than other modules to see changes made and log them. This does not interfere/modify the dispatched packets from other modules. The only packet that comes through and modified (silenced) is 'S_USER_EXTERNAL_CHANGE' in the case where it is from a target that is not the playing character.
