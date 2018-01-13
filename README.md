@@ -2,7 +2,7 @@
 
 NOTE: This module MIGHT work now with multiple bugs :x. Still currently stuck with both day work and evening studies (I cri), so fixing gonna be real slow. (By the way, I wasn't using old defs, those are the latest defs when I wrote this 6 months ago). Basic functionality should work. Might have bugs with other more uh less useful stuffs. dressup, dressupsave works as far as i tested, dumode using part name does not. Prob some others bugged out too :x . The readme is also incomplete, I'll finish them up later~
 
-Version 2.0: Update for New definitions (less of this pls, at least the new defs allowed me to shave off quite alot of lines. ;-;), new code, simplify shit, old commands should still work but some are removed.
+Version 2.0.1: Update for New definitions (less of this pls, at least the new defs allowed me to shave off quite alot of lines. ;-;), new code, simplify shit, old commands should still work but some are removed.
 
 Requires Commands module by Pinkie-Pie:https://github.com/pinkipi/command
 
@@ -30,12 +30,9 @@ To reset a target's appearance to their original, just move out till you cannot 
 There is an option to negate changers. Changers are selfconfidence potions, Shrink/Grow potions and big head potions. When negate changers is enabled, any target which has changers on will have their effect ended (client side) when attempting to dress them up. Currently I only added those that I logged from tera NA currently, so that there is no need to end 20 over abnormalities. If somehow the changers are not negated, then add more ids on your own in CHANGER_ABNORMALITY. I included a list of ids, and if you also want to negate height/chest/thigh changers, add in those ids on your own too (use 'present version' indicated ones).
 
 #### Setup in index.js:
+1. Set 'MAINTAIN_COSTUME' in index.js to true if you want to maintain the changed equipment on your target even if he/she changes her/his appearances. This only works if he/she is in your sight and their appearance will revert when they go out of your sight.
 
-1. Set 'CUSTOM_MOD' in index.js to true if you use custom proxy modules that changes costumes, false if otherwise. This is true by default, setting to false will also stop the hooking of packets dispatched from proxy modules that changes costumes. (look for this line: const custom_mod=true;) 
-
-2. Set 'MAINTAIN_COSTUME' in index.js to true if you want to maintain the changed equipment on your target even if he/she changes her/his appearances. This only works if he/she is in your sight and their appearance will revert when they go out of your sight.
-
-3. Set 'MESSAGE_OVERRIDE_CHANGES' to false to stop system messages from appearing when someone is changed via automatic costume change from dressupsave command.
+2. Set 'MESSAGE_OVERRIDE_CHANGES' to false to stop system messages from appearing when someone is changed via automatic costume change from dressupsave command.
 
 #### Defaults: 
 Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers enabled (allow target to use maintain their changer appearances), mode=0. Change defaults in index.js.
