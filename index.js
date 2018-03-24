@@ -15,9 +15,7 @@ const modes=require('./modes'),
 	  fs = require('fs')
 	
 const CHANGER_ABNORMALITY=[7777001,7777003,7777007,7000005,7000001,7000011,806001], //Current Abnormality ids of shape changers/self confidence/zombie pot
-	  customchat=['weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye'], //shortcut name for custom changes: [weapon,chest,innerwear,chestDye,weaponEnchant,hairAdornment,mask,back,weaponSkin,costume,costumeDye]
-	  packetname=['weapon','body','hand','feet','underwear','head','face','weaponModel','bodyModel','handModel','feetModel','weaponDye','bodyDye','handDye','feetDye','underwearDye','styleBackDye','styleHeadDye','styleFaceDye','weaponEnchant','styleHead','styleFace','styleBack','styleWeapon','styleBody','styleFootprint','styleBodyDye']
-
+	  customchat=['weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye'] //shortcut name for custom changes: [weapon,chest,innerwear,chestDye,weaponEnchant,hairAdornment,mask,back,weaponSkin,costume,costumeDye]
 
 module.exports = function dressupf(dispatch) {
 	const command = Command(dispatch)
@@ -43,6 +41,8 @@ module.exports = function dressupf(dispatch) {
 		customdata={},
 		newcustom={},
 		equiplist=[],
+		costumePacket,
+		packetname=[],
 		fileopen=true  //dont touch this.
 	
 	try {customdata = require('./playerdata.json')}
@@ -51,11 +51,16 @@ module.exports = function dressupf(dispatch) {
 	try {importdata = require('./importdata.json')}
 	catch(e) {importdata={} }
 	
+	try {costumePacket = require('./costumePacket.json')}
+	catch(e) {costumePacket={packetField:[],gameVersion:0}}
+	
+	packetname = costumePacket.packetField
+	
 /////Commands
 	command.add('dressup',namestr => {
 		namestr=namestr.toLowerCase()
 		if(namestr === datanamestring) {
-			dispatch.toClient('S_USER_EXTERNAL_CHANGE', 4, equips)
+			dispatch.toClient('S_USER_EXTERNAL_CHANGE', 6, equips)
 			command.message('(Dressup)You Changed </3')
 		}
 		if(players[namestr]) {
@@ -151,7 +156,7 @@ module.exports = function dressupf(dispatch) {
 		}
 		else if(argu.includes('fix') && CUSTOM_MOD) { //does not work maybe
 			command.message('(Dressup)Custom fix mode in effect, the next costume change will not be applied but will be saved');
-			dispatch.hookOnce('S_USER_EXTERNAL_CHANGE',4,{order:7,filter:{fake:true}}, event => { //Only if you use custom mods that changes equip via S_USER_EXTERNAL_CHANGE
+			dispatch.hookOnce('S_USER_EXTERNAL_CHANGE',6,{order:7,filter:{fake:true}}, event => { //Only if you use custom mods that changes equip via S_USER_EXTERNAL_CHANGE
 				if(event.gameId.equals(playerid)) {	
 					equips = Object.assign({},event)
 					command.message('(Dressup)New equip saved, not applied to player')
@@ -230,13 +235,21 @@ module.exports = function dressupf(dispatch) {
 		}
 	})
 	
+	command.add('dupacket',() => {
+		command.message('[DressupFriends] Attempting to check for vital packet changes. Unequip something')
+		packetUpdate()
+	})
 ////////Dispatches	
 	dispatch.hook('S_LOGIN', 9, event => {
 		playerid = event.gameId
 		datanamestring=event.name.toLowerCase()
+		if(costumePacket.gameVersion != dispatch.base.protocolVersion) {
+			console.log('[DressupFriends] New game version detected. Attempt to check for vital packet changes upon login.')
+			packetUpdate()
+		}
 	})
 
-	dispatch.hook('S_SPAWN_USER',11,event => {
+	dispatch.hook('S_SPAWN_USER',13,event => {
 		if(enabled)	{
 			playername = event.name.toLowerCase()
 			
@@ -266,8 +279,11 @@ module.exports = function dressupf(dispatch) {
 	
 	
 	dispatch.hook('S_DESPAWN_USER', 3, event => { 	
-		for(let name of players) {
-			if(name[event.gameId]) delete players[name]
+		for(let [key, value] of Object.entries(players)) {
+			if(event.gameId.equals(value.id)) {
+				delete players[key]
+				break
+			}
 		}
 	})
 	
@@ -279,7 +295,7 @@ module.exports = function dressupf(dispatch) {
 
 	
 
-	dispatch.hook('S_USER_EXTERNAL_CHANGE', 4, {order:6,filter:{fake:null}}, (event,fake) => { 	//hooks for fake packets from other modules, hook later to prevent clashes?
+	dispatch.hook('S_USER_EXTERNAL_CHANGE', 6, {order:6,filter:{fake:null}}, (event,fake) => { 	//hooks for fake packets from other modules, hook later to prevent clashes?
 		if(ignoreFake && fake) return
 		
 		if(enabled && event.gameId.equals(playerid)) {  //NOT A SPELLING ERROR ~.~
@@ -294,6 +310,35 @@ module.exports = function dressupf(dispatch) {
 	})
 	
 /////Functions
+	function packetUpdate() {
+		dispatch.hookOnce('S_USER_EXTERNAL_CHANGE', '*', {order:-100,filter:{fake:null}}, event => {
+			let compareName = Object.keys(event)
+			compareName.shift() //Remove 1st gameId and last showStyle fields
+			compareName.pop()
+			if(!arraysEqual(packetname,compareName)) {
+				packetname = compareName
+				console.log('[DressupFriends] Detected changes in packet definition. Update module packet [S_USER_EXTERNAL_CHANGE]')
+				costumePacket.gameVersion = dispatch.base.protocolVersion
+			}
+			else {
+				console.log('[DressupFriends] No new packet changes detected in game revision.')
+			}
+			saveplayer('costumePacket.json', {
+				"packetField":packetname,
+				"gameVersion":dispatch.base.protocolVersion
+			})
+		})
+	}
+	
+	function arraysEqual(arr1,arr2) { //StackOverflow ftw
+		if (arr1.length !== arr2.length) return false
+		
+		for (var i = arr1.length; i--;) {
+			if(arr1[i] !== arr2[i]) return false
+		}
+		return true
+	}
+	
 	function endabnormality(target) {
 		for(let skillid of CHANGER_ABNORMALITY) {
 			dispatch.toClient('S_ABNORMALITY_END',1, {
@@ -308,7 +353,7 @@ module.exports = function dressupf(dispatch) {
 		newcostume = Object.assign({},equips,{gameId:playeridn},targetmodeeqp)
 		if(negateChangers) endabnormality(playeridn)
 			
-		dispatch.toClient('S_USER_EXTERNAL_CHANGE', 4, newcostume)
+		dispatch.toClient('S_USER_EXTERNAL_CHANGE', 6, newcostume)
 		
 		if(playersave) customdata[playerign] = makesavefile(newcostume)
 		
