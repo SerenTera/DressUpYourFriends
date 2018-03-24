@@ -2,7 +2,9 @@
 
 NOTE: This module MIGHT work now with multiple bugs :x. Still currently stuck with both day work and evening studies (I cri), so fixing gonna be real slow. (By the way, I wasn't using old defs, those are the latest defs when I wrote this 6 months ago). Basic functionality should work. Might have bugs with other more uh less useful stuffs. dressup, dressupsave works as far as i tested, dumode using part name does not. Prob some others bugged out too :x . The readme is also incomplete, I'll finish them up later~
 
-Version 2.0.1: Update for New definitions (less of this pls, at least the new defs allowed me to shave off quite alot of lines. ;-;), new code, simplify shit, old commands should still work but some are removed.
+Version 2.1.0: Added automatic detection for new packets definition based on new protocol version. Update your bin/tera-data before starting game if theres a new client revison that changes S_USER_EXTERNAL_CHANGE. ONLY WORKS WITH ABSOLUTE LATEST PROXY VERSION.
+
+Note: There is a command 'dupacket' that can do this check also. Just unequip something after using this command to check.
 
 Requires Commands module by Pinkie-Pie:https://github.com/pinkipi/command
 
