@@ -39,6 +39,18 @@ There is an option to negate changers. Changers are selfconfidence potions, Shri
 
 2. Set 'MESSAGE_OVERRIDE_CHANGES' to false to stop system messages from appearing when someone is changed via automatic costume change from dressupsave command.
 
+```
+MAINTAIN_COSTUME:true, 			//true maintains user changed appearances on target, when target changes its costume. Only works if sight is maintained.
+MESSAGE_OVERRIDE_CHANGES:true		//Change this to false if you want to silence the messages that get sent when a saved target costume is overrided.
+
+//Defaults (Modify with true/false only, except for mode):
+let enabled=true, 			//Default enabling of object. Keep at false if you do not use this module often.
+	negateChangers=true, 	//Default negate big head/self confidence shape changers, true=remove/negate changers on target, false=allow changers on target.
+	greeting=false,			//Default greeting changes costume. Might be broken.
+	ignoreFake=false, 		//Default saving of fake costume packet from costume mods. true will ignore all costume changes set by other modules.
+	playersave=false, 		//Save costume
+	mode=0				 	//Default mode of module.	  
+```
 #### Defaults: 
 Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers enabled (allow target to use maintain their changer appearances), mode=0. Change defaults in index.js.
 
