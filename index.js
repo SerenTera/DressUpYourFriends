@@ -1,26 +1,18 @@
-const MAINTAIN_COSTUME=true, 			//true maintains user changed appearances on target, when target changes its costume. Only works if sight is maintained.
-	  MESSAGE_OVERRIDE_CHANGES=true		//Change this to false if you want to silence the messages that get sent when a saved target costume is overrided.
+//DressUpYourFriends v3.0.0
+//Configuration file is config.json (NOT configDefault.json)
 
-//Defaults (Modify with true/false only, except for mode):
-let enabled=true, 			//Default enabling of object. Keep at false if you do not use this module often.
-	negateChangers=true, 	//Default negate big head/self confidence shape changers, true=remove/negate changers on target, false=allow changers on target.
-	greeting=false,			//Default greeting changes costume. Might be broken.
-	ignoreFake=true, 		//Default saving of fake costume packet from costume mods
-	playersave=false, 		//Save costume
-	mode=0				 	//Default mode of module.	  
-	  
 const modes=require('./modes'),
 	  Command = require('command'),
 	  path = require('path'),
-	  fs = require('fs')
+	  fs = require('fs'),	  
+	  defaultConfig = require('./lib/configDefault.json')
 	
 const CHANGER_ABNORMALITY=[7777001,7777003,7777007,7000005,7000001,7000011,806001], //Current Abnormality ids of shape changers/self confidence/zombie pot
 	  customchat=['weapon','chest','inner','chestdye','enchantment','hat','mask','back','weaponskin','costume','costumedye'] //shortcut name for custom changes: [weapon,chest,innerwear,chestDye,weaponEnchant,hairAdornment,mask,back,weaponSkin,costume,costumeDye]
-
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 module.exports = function dressupf(dispatch) {
 	const command = Command(dispatch)
 	
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	let players={},
 		changed=[],
 		changerlist=[],
@@ -43,18 +35,49 @@ module.exports = function dressupf(dispatch) {
 		equiplist=[],
 		costumePacket,
 		packetname=[],
-		fileopen=true  //dont touch this.
-	
+		fileopen=true, 			//dont touch this.
+		debug = true		
+	 	
+/////Try requires	
 	try {customdata = require('./playerdata.json')}
 	catch(e) {customdata = {} }
 	
 	try {importdata = require('./importdata.json')}
 	catch(e) {importdata={} }
 	
-	try {costumePacket = require('./costumePacket.json')}
-	catch(e) {costumePacket={packetField:[],gameVersion:0}}
+	try {
+		costumePacket = require('./lib/costumePacket.json')
+		packetname = costumePacket.packetField
+	}
+	catch(e) {
+		costumePacket = {packetField:[],gameVersion:0,fieldId:{}}
+	}
 	
-	packetname = costumePacket.packetField
+	try{
+		config = require('./config.json')
+		if(config.moduleVersion !== defaultConfig.moduleVersion) {
+			Object.assign(defaultConfig,config)
+			saveplayer(config,'config.json')
+			console.log('[DressUpFriends] Updated new config file. Current settings transferred over.')
+		}
+	}
+	catch(e){
+		config = defaultConfig
+		saveplayer(config,'config.json')
+		console.log('[DressUpFriends] Initated a new config file due to missing config file. Add your default config in config.json.')
+	}	
+
+	
+/////Configs shortcut
+	const MAINTAIN_COSTUME = config.MAINTAIN_COSTUME, 			
+		  MESSAGE_OVERRIDE_CHANGES = config.MESSAGE_OVERRIDE_CHANGES
+		  
+	let enabled=config.enabled,
+		negateChangers=config.negateChangers, 				
+		ignoreFake=config.ignoreFake, 		
+		playersave=config.playersave, 		
+		mode=config.mode	
+	
 	
 /////Commands
 	command.add('dressup',namestr => {
@@ -75,7 +98,7 @@ module.exports = function dressupf(dispatch) {
 			playersave=true
 			pushcostume(namestring,players[namestring].id,players[namestring].playerequip)
 			playersave=false
-			saveplayer('playerdata.json',customdata)
+			saveplayer(customdata,'playerdata.json')
 			command.message('(Dressup)Changed and saved '+namestring+' (Mode: '+JSON.stringify(modemessage)+')')
 		}
 	})
@@ -84,7 +107,7 @@ module.exports = function dressupf(dispatch) {
 		deletename=deletename.toLocaleLowerCase()
 		if(customdata[deletename]) {
 				delete customdata[deletename]
-				saveplayer('playerdata.json',customdata)
+				saveplayer(customdata,'playerdata.json')
 				command.message('(Dressup)Deleted '+deletename+' from saved data')
 		}
 	})
@@ -202,12 +225,12 @@ module.exports = function dressupf(dispatch) {
 			data=JSON.parse(data)
 			if(typeof namearg === 'undefined') {
 				Object.assign(customdata,data)
-				saveplayer('playerdata.json',customdata)
+				saveplayer(customdata,'playerdata.json')
 				command.message('(Dressup) Attempted to Import all data')
 			}
 			else if(data[namearg.toLowerCase()]) {
 				customdata[namearg.toLowerCase()]=data[namearg.toLowerCase()]
-				saveplayer('playerdata.json',customdata)
+				saveplayer(customdata,'playerdata.json')
 				command.message('(Dressup) Attempted to Import data for '+ namearg)
 			}
 			else
@@ -217,7 +240,7 @@ module.exports = function dressupf(dispatch) {
 
 	command.add('duexport',() => {
 		importdata[datanamestring] = makesavefile(originalequips)
-		saveplayer('importdata.json',importdata)
+		saveplayer(importdata,'importdata.json')
 		command.message('(Dressup) Created import file. Send importdata.json to another player to have them fix how all your exported characters look like on their end.')
 	})
 		
@@ -237,7 +260,8 @@ module.exports = function dressupf(dispatch) {
 	
 	command.add('dupacket',() => {
 		command.message('[DressupFriends] Attempting to check for vital packet changes. Unequip something')
-		packetUpdate()
+		packetUpdate('*')
+		modes.update()
 	})
 ////////Dispatches	
 	dispatch.hook('S_LOGIN', 9, event => {
@@ -245,7 +269,7 @@ module.exports = function dressupf(dispatch) {
 		datanamestring=event.name.toLowerCase()
 		if(costumePacket.gameVersion != dispatch.base.protocolVersion) {
 			console.log('[DressupFriends] New game version detected. Attempt to check for vital packet changes upon login.')
-			packetUpdate()
+			packetUpdate('*')
 		}
 	})
 
@@ -282,6 +306,7 @@ module.exports = function dressupf(dispatch) {
 		for(let [key, value] of Object.entries(players)) {
 			if(event.gameId.equals(value.id)) {
 				delete players[key]
+				if(debug) console.log(key)
 				break
 			}
 		}
@@ -304,29 +329,42 @@ module.exports = function dressupf(dispatch) {
 			command.message('(Dressup) Current Equipped saved')
 		}
 		
-		else if(MAINTAIN_COSTUME && changed.length!==0) { 
+		else if(MAINTAIN_COSTUME && changed.length!==0 && !fake) { 
 			if(changed.includes(event.gameId.toString())) return false
 		}
 	})
 	
 /////Functions
-	function packetUpdate() {
-		dispatch.hookOnce('S_USER_EXTERNAL_CHANGE', '*', {order:-100,filter:{fake:null}}, event => {
+	function packetUpdate(version) {
+		dispatch.hookOnce('S_USER_EXTERNAL_CHANGE' ,version , {order:-100,filter:{fake:null}}, event => {
 			let compareName = Object.keys(event)
+			let matchId = {}
 			compareName.shift() //Remove 1st gameId and last showStyle fields
 			compareName.pop()
-			if(!arraysEqual(packetname,compareName)) {
+			
+			if(arraysEqual(packetname,compareName)) {
+				console.log('[DressupFriends] No new packet changes detected in new game revision.')
+				saveplayer(Object.assign({},costumePacket,{gameVersion:dispatch.base.protocolVersion}),['lib','costumePacket.json'])
+				return
+			}
+				
+			else {
 				packetname = compareName
 				console.log('[DressupFriends] Detected changes in packet definition. Update module packet [S_USER_EXTERNAL_CHANGE]')
 				costumePacket.gameVersion = dispatch.base.protocolVersion
+				for(i=0; i < packetname.length; i++) {
+					matchId[i] = packetname[i]
+				}
+				costumePacket.fieldId = matchId	
+				
+				saveplayer({
+					"packetField":packetname,
+					"gameVersion":dispatch.base.protocolVersion,
+					"fieldId": matchId
+				},['lib','costumePacket.json'],)
+				
+				process.nextTick(() => modes.update()) //After the file is written then update
 			}
-			else {
-				console.log('[DressupFriends] No new packet changes detected in game revision.')
-			}
-			saveplayer('costumePacket.json', {
-				"packetField":packetname,
-				"gameVersion":dispatch.base.protocolVersion
-			})
 		})
 	}
 	
@@ -369,20 +407,26 @@ module.exports = function dressupf(dispatch) {
 		return datatosave
 	}
 	
-	function saveplayer(filename,data) {
+	function saveplayer(data,args) { 
+		if(!Array.isArray(args)) args = [args] //Find a way around this later -.-
+		
 		if(fileopen) {
-			fileopen=false;
-			fs.writeFile(path.join(__dirname,filename), JSON.stringify(data), err => {
-				if(err) command.message('Error Writing File, attempting to rewrite');
-				fileopen = true;
+			fileopen=false
+			fs.writeFile(path.join(__dirname, ...args), JSON.stringify(data,null,"\t"), err => {
+				if(err) command.message('Error Writing File, attempting to rewrite')
+				fileopen = true
 			})
 		}
 		else {
 			clearTimeout(stopwrite)			 //if file still being written
-			stopwrite=setTimeout(saveplayer(filename,data),2000)
+			stopwrite=setTimeout(saveplayer(__dirname,...args),2000)
 			return
 		}
 	}
+	
+	function readFiles(...args) {
+		return JSON.parse(fs.readFileSync(path.join(__dirname,...args), 'utf8'));
+	}	
 	
 	function equiparray(event) {
 		equiplist=[]

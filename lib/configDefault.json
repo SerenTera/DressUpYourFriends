@@ -1,0 +1,11 @@
+{
+	"moduleVersion": "3.0.0",
+	"MAINTAIN_COSTUME": true, 			
+	"MESSAGE_OVERRIDE_CHANGES": true,		
+	"enabled": true, 			
+	"negateChangers": true, 		
+	"ignoreFake": false, 		
+	"playersave": false,
+	"mode": 0,
+	"customModes":{}
+}

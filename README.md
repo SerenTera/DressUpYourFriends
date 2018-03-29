@@ -1,14 +1,9 @@
 # DressUpYourFriends
-Latest version: v2.1.0
 
-NOTE: Pending fixes for male brawler patch.
+NOTE: This module MIGHT work now with multiple bugs :x. Still currently stuck with both day work and evening studies (I cri), so fixing gonna be real slow. (By the way, I wasn't using old defs, those are the latest defs when I wrote this 6 months ago). Basic functionality should work. Might have bugs with other more uh less useful stuffs. dressup, dressupsave works as far as i tested, dumode using part name does not. Prob some others bugged out too :x . The readme is also incomplete, I'll finish them up later~
 
-## Updates
-Version 2.1.0: Added automatic detection for new packets definition based on new protocol version. Update your bin/tera-data before starting game if theres a new client revison that changes S_USER_EXTERNAL_CHANGE. ONLY WORKS WITH ABSOLUTE LATEST PROXY VERSION.
+Version 2.0.1: Update for New definitions (less of this pls, at least the new defs allowed me to shave off quite alot of lines. ;-;), new code, simplify shit, old commands should still work but some are removed.
 
-Note: There is a command 'dupacket' that can do this check also. Just unequip something after using this command to check.
-
-## Quick Info
 Requires Commands module by Pinkie-Pie:https://github.com/pinkipi/command
 
 A Tera Proxy Module to change the look of your friends, enemies or anyone in your visible vicnity. Appearance is Client Sided. Using the commands on anyone will cause their equipped costumes/equipment to change to look like yours/the customised equip. Can be customized using itemids.
@@ -39,18 +34,6 @@ There is an option to negate changers. Changers are selfconfidence potions, Shri
 
 2. Set 'MESSAGE_OVERRIDE_CHANGES' to false to stop system messages from appearing when someone is changed via automatic costume change from dressupsave command.
 
-```
-MAINTAIN_COSTUME:true, 			//true maintains user changed appearances on target, when target changes its costume. Only works if sight is maintained.
-MESSAGE_OVERRIDE_CHANGES:true		//Change this to false if you want to silence the messages that get sent when a saved target costume is overrided.
-
-//Defaults (Modify with true/false only, except for mode):
-let enabled=true, 			//Default enabling of object. Keep at false if you do not use this module often.
-	negateChangers=true, 	//Default negate big head/self confidence shape changers, true=remove/negate changers on target, false=allow changers on target.
-	greeting=false,			//Default greeting changes costume. Might be broken.
-	ignoreFake=false, 		//Default saving of fake costume packet from costume mods. true will ignore all costume changes set by other modules.
-	playersave=false, 		//Save costume
-	mode=0				 	//Default mode of module.	  
-```
 #### Defaults: 
 Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers enabled (allow target to use maintain their changer appearances), mode=0. Change defaults in index.js.
 
