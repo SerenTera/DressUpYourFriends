@@ -263,6 +263,20 @@ module.exports = function dressupf(dispatch) {
 		packetUpdate('*')
 		modes.update()
 	})
+	
+	command.add('dumigrate',() => {
+		let tempObj = {}
+		Object.keys(customdata).forEach( key => {
+			if(!customdata[key].showStyle) {
+				tempObj = customdata[key].changers
+				delete customdata[key].changers
+				customdata[key].showStyle = true
+				customdata[key].changers = tempObj
+			}
+		})
+		saveplayer(customdata,'playerdata.json')
+		command.message('[DressupFriends] Sucessfully migrated playerdata.json to new format')
+	})
 ////////Dispatches	
 	dispatch.hook('S_LOGIN', 9, event => {
 		playerid = event.gameId
