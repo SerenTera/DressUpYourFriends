@@ -1,8 +1,7 @@
 # DressUpYourFriends
-Latest version: v2.1.0
+Latest version: v3.0.0
 
-NOTE: Pending fixes for male brawler patch.
-
+Edit config.json for your configs previously saved in index.js. Also allows auto updating using Caali's Proxy.
 ## Updates
 Version 2.1.0: Added automatic detection for new packets definition based on new protocol version. Update your bin/tera-data before starting game if theres a new client revison that changes S_USER_EXTERNAL_CHANGE. ONLY WORKS WITH ABSOLUTE LATEST PROXY VERSION.
 
@@ -38,7 +37,9 @@ To reset a target's appearance to their original, just move out till you cannot 
 
 There is an option to negate changers. Changers are selfconfidence potions, Shrink/Grow potions and big head potions. When negate changers is enabled, any target which has changers on will have their effect ended (client side) when attempting to dress them up. Currently I only added those that I logged from tera NA currently, so that there is no need to end 20 over abnormalities. If somehow the changers are not negated, then add more ids on your own in CHANGER_ABNORMALITY. I included a list of ids, and if you also want to negate height/chest/thigh changers, add in those ids on your own too (use 'present version' indicated ones).
 
-#### Setup in config.js:
+## Configs:
+Change your configs in config.json, a file automatically generated on your first login. Relog to put it into effect.
+
 1. Set 'MAINTAIN_COSTUME' in index.js to true if you want to maintain the changed equipment on your target even if he/she changes her/his appearances. This only works if he/she is in your sight and their appearance will revert when they go out of your sight.
 
 2. Set 'MESSAGE_OVERRIDE_CHANGES' to false to stop system messages from appearing when someone is changed via automatic costume change from dressupsave command.
@@ -55,8 +56,6 @@ Other options:
 
 `mode`: Default mode of module. See modes.js
 
-#### Defaults: 
-Module is enabled, Maintain appearances thorugh target changes enabled, greet to change disabled, Ignore changers enabled (allow target to use maintain their changer appearances), mode=0. Change defaults in index.js.
 
 ## Commands: NO SPACES IN ARGUMENTS, and only 1 space between command and argument. use commas to separate multiple arguments.
 USE ! as prefix to any commands if u are not typing commands in /proxy chat. IMPORTANT!
