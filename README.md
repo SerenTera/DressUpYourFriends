@@ -1,7 +1,7 @@
 # DressUpYourFriends
 Latest version: v3.0.0
 
-Edit config.json for your configs previously saved in index.js. Also allows auto updating using Caali's Proxy.
+Edit config.json for your configs previously saved in index.js. Also allows auto updating using Caali's Proxy. If you are using the old playerdata.json you have, then, use the commmad `dumigrate` in proxy chat after copying the playerdata.json in the main folder.
 ## Updates
 Version 2.1.0: Added automatic detection for new packets definition based on new protocol version. Update your bin/tera-data before starting game if theres a new client revison that changes S_USER_EXTERNAL_CHANGE. ONLY WORKS WITH ABSOLUTE LATEST PROXY VERSION.
 
