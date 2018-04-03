@@ -1,8 +1,9 @@
 {
     "files": {
         "ducustom.json": "cd16519d810e2d91d897cf78cb62b8cc6fdc0b977b04d45532fdf1af3e14c61f",
-        "index.js": "8818f7570656695a0f43863d7e30def5d09aec035d7a7bf5fbafebb12af47e25",
+        "index.js": "40526bb18df3d31d8fb848edbec84ce1baedf0689f55897d40c2e5683788129e",
         "modes.js": "18463ad0cbdb34922b45c059c3b7aced9b5b2d62666a24a83ae2f5b54ad83bca",
+        "module.json": "372029d58d9e5e9b75007e8872513ff4db474dfbacabde74131d70e902a6e005",
         "lib/configDefault.json": "ece1b92a1131ca38bae8d79eedfcd76c6493c32975ee2b510e30ad75ebbabd1e",
         "lib/ducustomDefault.json": "cd16519d810e2d91d897cf78cb62b8cc6fdc0b977b04d45532fdf1af3e14c61f"
     },

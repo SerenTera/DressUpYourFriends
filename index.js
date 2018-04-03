@@ -303,10 +303,11 @@ module.exports = function dressupf(dispatch) {
 				if(!changed.includes(event.gameId.toString())) changed.push(event.gameId.toString())
 				if(customdata[playername].changers && !changerBlock.includes(event.gameId)) changerBlock.push(event.gameId)
 				
-				process.nextTick(() => {
-					dispatch.toClient('S_USER_EXTERNAL_CHANGE', 6, applySave(customdata[event.name.toLowerCase()],event.gameId))
-					if(MESSAGE_OVERRIDE_CHANGES) command.message(`Changed ${event.name} to saved costume`)
-				})
+				Object.assign(event,customdata[playername])
+				delete event.changers
+				if(MESSAGE_OVERRIDE_CHANGES) command.message(`Changed ${event.name} to saved costume`)
+				
+				return true
 			}
 		}
 	})
