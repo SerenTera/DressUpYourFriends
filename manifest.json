@@ -10,7 +10,7 @@
     "defs": {
         "S_USER_EXTERNAL_CHANGE": 6,
         "S_ABNORMALITY_END": 1,
-        "S_LOGIN": 67,
+        "S_LOGIN": [9,10],
         "S_SPAWN_USER": 13,
         "S_ABNORMALITY_BEGIN": 2,
         "S_DESPAWN_USER": 3
