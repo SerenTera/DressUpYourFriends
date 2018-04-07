@@ -278,7 +278,7 @@ module.exports = function dressupf(dispatch) {
 		command.message('[DressupFriends] Sucessfully migrated playerdata.json to new format')
 	})
 ////////Dispatches	
-	dispatch.hook('S_LOGIN', 9, event => {
+	dispatch.hook('S_LOGIN', dispatch.base.majorPatchVersion >= 67 ? 10 : 9, event => {
 		playerid = event.gameId
 		datanamestring=event.name.toLowerCase()
 		if(costumePacket.gameVersion != dispatch.base.protocolVersion) {
