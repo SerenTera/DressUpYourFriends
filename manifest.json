@@ -8,7 +8,7 @@
         "lib/ducustomDefault.json": "cd16519d810e2d91d897cf78cb62b8cc6fdc0b977b04d45532fdf1af3e14c61f"
     },
     "defs": {
-		"S_LOGIN": [9,10],
+	"S_LOGIN": [9,10],
         "S_USER_EXTERNAL_CHANGE": 6,
         "S_ABNORMALITY_END": 1,
         "S_SPAWN_USER": 13,
