@@ -278,16 +278,7 @@ module.exports = function dressupf(dispatch) {
 		command.message('[DressupFriends] Sucessfully migrated playerdata.json to new format')
 	})
 ////////Dispatches
-	dispatch.hook('C_CHECK_VERSION','raw', () => {
-		if(dispatch.base.protocolVersion) hook()
-		else {
-			console.log('Protocol Version not found, Restart everything again then holler for help~')
-		}
-	})
-	
-	function hook() {
-
-	dispatch.hook('S_LOGIN', dispatch.base.majorPatchVersion >= 67 ? 10 : 9, event => {
+	dispatch.hook('S_LOGIN', 10, event => {
 		playerid = event.gameId
 		datanamestring=event.name.toLowerCase()
 		if(costumePacket.gameVersion != dispatch.base.protocolVersion) {
@@ -357,7 +348,7 @@ module.exports = function dressupf(dispatch) {
 			if(changed.includes(event.gameId.toString())) return false
 		}
 	})
-	}
+	
 /////Functions
 	function packetUpdate(version) {
 		dispatch.hookOnce('S_USER_EXTERNAL_CHANGE' ,version , {order:-100,filter:{fake:null}}, event => {
