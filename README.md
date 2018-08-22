@@ -18,18 +18,6 @@ A Tera Proxy Module to change the look of your friends, enemies or anyone in you
 
 Disable the module and this clears all entries and effectively prevents the logging of targets if you face lag in high population area.
 
-Short list of commands (Type with '!' prefix if not using /proxy chat, eg: !dutoggle instead of dressup in global chat):
-
-dutoggle- Toggle enable/disable
-
-dressup (name), dressupsave (name), dressupdelete (name)- Changes target costume
-
-duchangers, dufake, duid (name), dumode (mode number) and dumode (partname),... --- modes/toggling of module functions/check id
-
-ducustom fix, ducustom (partname)(itemID),... and ducustom json  --- customize equipped costume
-
-duexport,duimport --- import/export costume
-
 ## General instructions
 When logging in you should see a message 'current equipped saved'. When you change your appearance in any way, you should see this message again. This signifies the current equip you have is saved and to be copied onto your targets.
 
@@ -61,40 +49,40 @@ Other options:
 USE ! as prefix to any commands if u are not typing commands in /proxy chat. IMPORTANT!
 
 ### Main action/module command (PLayers must be visible in your vicinity):
-`dressup (name)`: Dress up the named person appearance with your saved costume/appearance. Can be in any captialization, just spelling matters. Eg: 'dressup seren' can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
+`du apply (name)`: Dress up the named person appearance with your saved costume/appearance. Can be in any captialization, just spelling matters. Eg: `du apply seren` can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
 
-`dressupsave (name)`: Dress up AND SAVE the named person appearance with your saved costume/appearance. Works though logouts/out of range, where the character changed appearance will stay till it is deleted with next command OR module is disabled. You can use this to decide what each individual on your server looks like on your end permenently till you disable/use next command. Eg: 'dressupsave seren' can dress up any igns seren,Seren, SEREN, seReN,etc and saves the changed appearance/costume. When 'Seren' is come across again after logouts/out of range, seren will be dressed up as what is saved. The character datas are all saved in playerdata.json.
+`du save (name)`: Dress up AND SAVE the named person appearance with your saved costume/appearance. Works though logouts/out of range, where the character changed appearance will stay till it is deleted with next command OR module is disabled. You can use this to decide what each individual on your server looks like on your end permenently till you disable/use next command. Eg: `du save seren` can dress up any igns seren,Seren, SEREN, seReN,etc and saves the changed appearance/costume. When 'Seren' is come across again after logouts/out of range, seren will be dressed up as what is saved. The character datas are all saved in playerdata.json.
 
-`dressupdelete (name)`: Delete the named person saved by the previous command. Eg. 'dressupdelete Seren' deletes seren's saved data.
+`du delete (name)`: Delete the named person saved by the previous command. Eg. `du delete Seren` deletes seren's saved data.
 
-`dutoggle`: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
+`du toggle`: Toggle enabling/disabling of module. Disable module will disable logging of targets around you, disables saving of your appearances and clears all saved targets. This effectively makes the module disabled. You have to unequip and re-equip something to save your appearances (look for the message that indicates this), as well as move out and back into the visible vicinity of your targets to save their ids after re-enabling the module.
 
 One word about saved characters using dressupsave is that if you play across multiple servers, then the appearances of all the same saved characters will changed to be the same. So be wise which one you chose to export with.
 ### Module functionality commands (add space after !du):
-`duchangers`: Toggles negate changers or not. Enable=negates changers, ending their effect on the target. Disable does otherwise.
+`du changers`: Toggles negate changers or not. Enable=negates changers, ending their effect on the target. Disable does otherwise.
 
-`dufake`: Toggle to ignore fake generated packets that changed your costume by other modules from affecting the saved costume.
+`du fake`: Toggle to ignore fake generated packets that changed your costume by other modules from affecting the saved costume.
 
-`duid (name)`:Checks the item ID of the costume parts that the named target have and also prints them out in console(command prompt). Must be in your vicinity. Eg: 'duid Seren' checks seren's costume item IDs. This is a useful command because you can copy what is on your command prompt and paste what is INSIDE the curly bracket ({}) together with 'ducustom' command. That is, 'ducustom {itemID infomation}' to obtain a saved equipped of the target(in this eg, seren) and with dressup commands you can paste the target (in this eg, seren) equip on another player. Procedure: 'duid (name of target you want to copy costume)=>copy from command prompt(that is rightclick, then mark and copy)=>'ducustom <paste message>'=>dressupsave (name of target to copy TO) or just dressup if you dont want to save.
+`du id (name)`:Checks the item ID of the costume parts that the named target have and also prints them out in console(command prompt). Must be in your vicinity. Eg: `du id Seren` checks seren's costume item IDs. This is a useful command because you can copy what is on your command prompt and paste what is INSIDE the curly bracket ({}) together with 'ducustom' command. That is, 'ducustom {itemID infomation}' to obtain a saved equipped of the target(in this eg, seren) and with dressup commands you can paste the target (in this eg, seren) equip on another player. Procedure: 'duid (name of target you want to copy costume)=>copy from command prompt(that is rightclick, then mark and copy)=>'ducustom <paste message>'=>dressupsave (name of target to copy TO) or just dressup if you dont want to save.
 	
-`dumode (mode number)`: Change modes to prevent some parts from being changed. See modes section.
+`du mode (mode number)`: Change modes to prevent some parts from being changed. See modes section.
 
-`dumode (part name)`:Prevent specific equip parts from being changed on the target. See modes section.
+`du mode (part name)`:Prevent specific equip parts from being changed on the target. See modes section.
 
 ### Commands to customise your equips to copy:
-`ducustom fix`: If you have a custom module (eg: costume-ex) you can use this command to temporarily stop the such modules from changing your appearance, yet saving the infomation of the changes to the equips to be copied onto target. This only works for 1 change. This is probably only useful if using dressing room, you can use this command, enter dress room and exit without your appearance changing but the saved equipped will be changed, if you wish to look different from your target. However, subsquent changes will cause the look saved by costume-ex to take over your appearances. Not a very useful command tbh, might be broken.
+`du custom fix`: If you have a custom module (eg: costume-ex) you can use this command to temporarily stop the such modules from changing your appearance, yet saving the infomation of the changes to the equips to be copied onto target. This only works for 1 change. This is probably only useful if using dressing room, you can use this command, enter dress room and exit without your appearance changing but the saved equipped will be changed, if you wish to look different from your target. However, subsquent changes will cause the look saved by costume-ex to take over your appearances. Not a very useful command tbh, might be broken.
 
-`ducustom json`- Enter the custom item id in the appropriate field in ducustom.json and save it. If an entry does not require modification, leave it as blank with the quotation marks (" ") still around. Then enter this command. Your saved costume will be modified with the ducustom.json content.
+`du custom json`- Enter the custom item id in the appropriate field in ducustom.json and save it. If an entry does not require modification, leave it as blank with the quotation marks (" ") still around. Then enter this command. Your saved costume will be modified with the ducustom.json content.
 
-`ducustom (part name)(itemId),(part name)(itemId),.... `- Changes the part saved in your saved equipped costume/appearance to the itemId entered. Enter multiple partname and ids separated by a comma (,) for multiple changes. NO spaces in between (partname)(itemid),.... See customization section.
+`du custom (part name)(itemId),(part name)(itemId),.... `- Changes the part saved in your saved equipped costume/appearance to the itemId entered. Enter multiple partname and ids separated by a comma (,) for multiple changes. NO spaces in between (partname)(itemid),.... See customization section.
 
 If you want to reset the changes made, just unequip and reequip any part of your equipment and changes will be overwritten and resetted.
 ### Commands for import/export
-`duexport`: Create an export file (called 'importdata.json') saving your character costume infomation. You can send this file on to other players with this module to change what YOUR character looks like on their end, if their module is enabled and they have used the 'duimport' command. (SEE below). Can contain multiple characters, so u can export all your alts, however you must enter this command on each one that you want to save. Overrides the saved character info if importdata.json already contains it with the new infomation. No cids are recorded, only name+itemIDs. No restarts or shutdown of proxy required to copy and send the file.
+`du export`: Create an export file (called 'importdata.json') saving your character costume infomation. You can send this file on to other players with this module to change what YOUR character looks like on their end, if their module is enabled and they have used the 'duimport' command. (SEE below). Can contain multiple characters, so u can export all your alts, however you must enter this command on each one that you want to save. Overrides the saved character info if importdata.json already contains it with the new infomation. No cids are recorded, only name+itemIDs. No restarts or shutdown of proxy required to copy and send the file.
 
-`duimport`: Imports the file (importdata.json) in your module folder. importdata.json obtained from other player must be put into the module folder where the index.js of this mod is located (ie: bin/node_modules/DressUpYourFriends, with -master if you are a lazy person lul). If you want to use another person importdata.json but have one of your own importdata.json currently in your module folder, backup your one and delete then copy the one sent by the other party in the module folder. This copies all characters stored in importdata.js, to copy only one or a select few, use 'duimport (name)'. No restarts or shutdown of proxy required to use this command after  importdata.json has been copied into the folder, just copy and use the command.
+`du import`: Imports the file (importdata.json) in your module folder. importdata.json obtained from other player must be put into the module folder where the index.js of this mod is located (ie: bin/node_modules/DressUpYourFriends, with -master if you are a lazy person lul). If you want to use another person importdata.json but have one of your own importdata.json currently in your module folder, backup your one and delete then copy the one sent by the other party in the module folder. This copies all characters stored in importdata.js, to copy only one or a select few, use 'duimport (name)'. No restarts or shutdown of proxy required to use this command after  importdata.json has been copied into the folder, just copy and use the command.
 
-`duimport (name)`: Same as previous command, only that instead of importing all the characters inside importdata.json, you only import the named character. eg: 'duimport seren' only imports seren character from importdata.json, even if other characters exists.
+`du import (name)`: Same as previous command, only that instead of importing all the characters inside importdata.json, you only import the named character. eg: 'duimport seren' only imports seren character from importdata.json, even if other characters exists.
 
 One word about exports/imports is that if you play across multiple servers, then the appearances of all the same named characters will changed to be the same. So be wise which one you chose to export with.
 
