@@ -49,7 +49,7 @@ Other options:
 USE ! as prefix to any commands if u are not typing commands in /proxy chat. IMPORTANT!
 
 ### Main action/module command (PLayers must be visible in your vicinity):
-`du apply (name)`: Dress up the named person appearance with your saved costume/appearance. Can be in any captialization, just spelling matters. Eg: `du apply seren` can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
+`du change (name)`: Dress up the named person appearance with your saved costume/appearance. Can be in any captialization, just spelling matters. Eg: `du change seren` can dress up any igns seren,Seren, SEREN, seReN,etc. Only works if you can see them and have not disabled the module.
 
 `du save (name)`: Dress up AND SAVE the named person appearance with your saved costume/appearance. Works though logouts/out of range, where the character changed appearance will stay till it is deleted with next command OR module is disabled. You can use this to decide what each individual on your server looks like on your end permenently till you disable/use next command. Eg: `du save seren` can dress up any igns seren,Seren, SEREN, seReN,etc and saves the changed appearance/costume. When 'Seren' is come across again after logouts/out of range, seren will be dressed up as what is saved. The character datas are all saved in playerdata.json.
 
