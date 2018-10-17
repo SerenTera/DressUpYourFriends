@@ -317,7 +317,7 @@ module.exports = function dressupf(mod) {
 		}
 	})
 	
-	mod.hook('S_ABNORMALITY_BEGIN', 2, event => {
+	mod.hook('S_ABNORMALITY_BEGIN', 3, event => {
 		if(changerBlock[event.target] && CHANGER_ABNORMALITY.includes(event.id)) return false
 	})
 	
