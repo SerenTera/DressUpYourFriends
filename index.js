@@ -1,3 +1,4 @@
+'use strict'
 //DressUpYourFriends v3.0.0
 //Configuration file is config.json (NOT configDefault.json)
 
@@ -25,12 +26,15 @@ module.exports = function dressupf(mod) {
 		importdata,
 		stopwrite,
 		importsave,
+		config = {},
 		datanamestring,
 		originalequips,
 		clearchangers,
 		customdata={},
 		newcustom={},
 		equiplist=[],
+		changerBlock = [],
+		newcostume,
 		costumePacket,
 		packetname=[],
 		fileopen=true, 			//dont touch this.
@@ -153,8 +157,8 @@ module.exports = function dressupf(mod) {
 		id(namestri) {
 			namestri=namestri.toLowerCase()
 			if(players[namestri]) {
-				let idtext={}
-				playeridequip = players[namestri].playerequip
+				let idtext={},
+					playeridequip = players[namestri].playerequip
 				for(let i in packetname) idtext[packetname[i]] = playeridequip[i]
 				mod.command.message('(Dressup)Player '+namestri+' costume ids are:\n'+ JSON.stringify(idtext, null, "\t"))
 				console.log('(Dressup)Player '+namestri+' costume ids are:\n'+ JSON.stringify(idtext, null, "\t"))
@@ -184,7 +188,7 @@ module.exports = function dressupf(mod) {
 				if(!CUSTOM_MOD) return
 				mod.command.message('(Dressup)Custom fix mode in effect, the next costume change will not be applied but will be saved');
 				mod.hookOnce('S_USER_EXTERNAL_CHANGE',6,{order:7,filter:{fake:true}}, event => { //Only if you use custom mods that changes equip via S_USER_EXTERNAL_CHANGE
-					if(event.gameId.equals(playerid)) {	
+					if(event.gameId === (playerid)) {	
 						equips = Object.assign({},event)
 						mod.command.message('(Dressup)New equip saved, not applied to player')
 						return false
@@ -305,7 +309,7 @@ module.exports = function dressupf(mod) {
 				}
 			
 			if(customdata[playername]) {
-				if(!changed.includes(event.gameId.toString())) changed.push(event.gameId.toString())
+				if(!changed.includes(event.gameId)) changed.push(event.gameId)
 				if(customdata[playername].changers && !changerBlock.includes(event.gameId)) changerBlock.push(event.gameId)
 				
 				Object.assign(event,customdata[playername])
@@ -324,7 +328,7 @@ module.exports = function dressupf(mod) {
 	
 	mod.hook('S_DESPAWN_USER', 3, event => { 	
 		for(let [key, value] of Object.entries(players)) {
-			if(event.gameId.equals(value.id)) {
+			if(event.gameId === (value.id)) {
 				delete players[key]
 				if(debug) console.log(key)
 				break
@@ -343,14 +347,14 @@ module.exports = function dressupf(mod) {
 	mod.hook('S_USER_EXTERNAL_CHANGE', 6, {order:6,filter:{fake:null}}, (event,fake) => { 	//hooks for fake packets from other modules, hook later to prevent clashes?
 		if(ignoreFake && fake) return
 		
-		if(enabled && event.gameId.equals(playerid)) {  //NOT A SPELLING ERROR ~.~
+		if(enabled && event.gameId === (playerid)) {  //NOT A SPELLING ERROR ~.~
 			equips = event	
 			originalequips = event
 			mod.command.message('(Dressup) Current Equipped saved')
 		}
 		
 		else if(MAINTAIN_COSTUME && changed.length!==0 && !fake) { 
-			if(changed.includes(event.gameId.toString())) return false
+			if(changed.includes(event.gameId)) return false
 		}
 	})
 	

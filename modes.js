@@ -1,3 +1,4 @@
+'use strict'
 //This file contains all the potential mode combinations.
 //modefunc contains the array index of customequipname that is to be excluded from being copied over.
 
@@ -19,7 +20,7 @@ const path = require('path'),
 	  fs = require('fs')
 
 try {
-	customequipname = JSON.parse(fs.readFileSync(path.join(__dirname,'lib','costumePacket.json'), 'utf8')).fieldId
+	let customequipname = JSON.parse(fs.readFileSync(path.join(__dirname,'lib','costumePacket.json'), 'utf8')).fieldId
 }
 catch(e){customequipname={}}  //Temporary
 
