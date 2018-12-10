@@ -1,7 +1,11 @@
 {
-	"disableAutoUpdate": false,
-	"options": {
-		"niceName":"DressUpFriends"
-	},
+    "disableAutoUpdate": false,
+    "name": "dressupyourfriends",
+    "author": "Seren",
+    "description": "Something that should be deleted already. Allows you to change others costumes.",
+    "version": "3.0.1",
+    "options": {
+        "niceName":"DressUpFriends"
+    },
     "servers": ["https://raw.githubusercontent.com/SerenTera/DressUpYourFriends/master/"]
 }
