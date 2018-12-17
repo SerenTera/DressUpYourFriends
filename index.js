@@ -87,7 +87,7 @@ module.exports = function dressupf(mod) {
 		change(namestr) {
 			namestr=namestr.toLowerCase()
 			if(namestr === datanamestring) {
-				mod.send('S_USER_EXTERNAL_CHANGE', 6, equips)
+				mod.send('S_USER_EXTERNAL_CHANGE', 7, equips)
 				mod.command.message('(Dressup)You Changed </3')
 			}
 			if(players[namestr]) {
@@ -187,7 +187,7 @@ module.exports = function dressupf(mod) {
 			fix(name) {//does not work maybe
 				if(!CUSTOM_MOD) return
 				mod.command.message('(Dressup)Custom fix mode in effect, the next costume change will not be applied but will be saved');
-				mod.hookOnce('S_USER_EXTERNAL_CHANGE',6,{order:7,filter:{fake:true}}, event => { //Only if you use custom mods that changes equip via S_USER_EXTERNAL_CHANGE
+				mod.hookOnce('S_USER_EXTERNAL_CHANGE',7,{order:7,filter:{fake:true}}, event => { //Only if you use custom mods that changes equip via S_USER_EXTERNAL_CHANGE
 					if(event.gameId === (playerid)) {	
 						equips = Object.assign({},event)
 						mod.command.message('(Dressup)New equip saved, not applied to player')
@@ -287,16 +287,16 @@ module.exports = function dressupf(mod) {
 		}
 	})
 ////////Dispatches
-	mod.hook('S_LOGIN', 10, event => {
-		playerid = event.gameId
-		datanamestring=event.name.toLowerCase()
+	mod.game.on('enter_game', () => {
+		playerid = mod.game.me.gameId
+		datanamestring = mod.game.me.name.toLowerCase()
 		if(costumePacket.gameVersion != mod.majorPatchVersion) {
 			console.log('[DressupFriends] New game version detected. Attempt to check for vital packet changes upon login.')
 			packetUpdate('*')
 		}
 	})
 
-	mod.hook('S_SPAWN_USER',13,event => {
+	mod.hook('S_SPAWN_USER',14,event => {
 		if(enabled)	{
 			playername = event.name.toLowerCase()
 			
@@ -344,7 +344,7 @@ module.exports = function dressupf(mod) {
 
 	
 
-	mod.hook('S_USER_EXTERNAL_CHANGE', 6, {order:6,filter:{fake:null}}, (event,fake) => { 	//hooks for fake packets from other modules, hook later to prevent clashes?
+	mod.hook('S_USER_EXTERNAL_CHANGE', 7, {order:6,filter:{fake:null}}, (event,fake) => { 	//hooks for fake packets from other modules, hook later to prevent clashes?
 		if(ignoreFake && fake) return
 		
 		if(enabled && event.gameId === (playerid)) {  //NOT A SPELLING ERROR ~.~
@@ -360,7 +360,7 @@ module.exports = function dressupf(mod) {
 	
 /////Functions
 	function packetUpdate(version) {
-		mod.hookOnce('S_USER_EXTERNAL_CHANGE' ,version , {order:-100,filter:{fake:null}}, event => {
+		mod.hookOnce('S_USER_EXTERNAL_CHANGE' ,7 , {order:-100,filter:{fake:null}}, event => {
 			let compareName = Object.keys(event)
 			let matchId = {}
 			compareName.shift() //Remove 1st gameId
@@ -374,7 +374,7 @@ module.exports = function dressupf(mod) {
 				packetname = compareName
 				console.log('[DressupFriends] Detected changes in packet definition. Update module packet [S_USER_EXTERNAL_CHANGE]')
 				costumePacket.gameVersion = mod.majorPatchVersion
-				for(i=0; i < packetname.length; i++) {
+				for(let i=0; i < packetname.length; i++) {
 					matchId[i] = packetname[i]
 				}
 				costumePacket.fieldId = matchId	
@@ -412,7 +412,7 @@ module.exports = function dressupf(mod) {
 		newcostume = Object.assign({},equips,{gameId:playeridn},targetmodeeqp)
 		if(negateChangers) endabnormality(playeridn)
 			
-		mod.send('S_USER_EXTERNAL_CHANGE', 6, newcostume)
+		mod.send('S_USER_EXTERNAL_CHANGE', 7, newcostume)
 		
 		if(playersave) customdata[playerign] = makesavefile(newcostume)
 		

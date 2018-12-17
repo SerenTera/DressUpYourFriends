@@ -18,9 +18,12 @@
 
 const path = require('path'),
 	  fs = require('fs')
+	  
+	  
+let customequipname
 
 try {
-	let customequipname = JSON.parse(fs.readFileSync(path.join(__dirname,'lib','costumePacket.json'), 'utf8')).fieldId
+	customequipname = JSON.parse(fs.readFileSync(path.join(__dirname,'lib','costumePacket.json'), 'utf8')).fieldId
 }
 catch(e){customequipname={}}  //Temporary
 
